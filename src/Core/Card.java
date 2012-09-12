@@ -32,5 +32,4 @@ public class Card {
 		this.sign = sign;
 		this.value = value;
 	}
-
 }

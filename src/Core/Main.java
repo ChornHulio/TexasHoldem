@@ -1,7 +1,7 @@
 package Core;
+
 import Player.ComputerPlayer;
 import Player.RandomStrategy;
-
 
 public class Main {
 
@@ -17,7 +17,5 @@ public class Main {
 		for (int i = 0; i < rounds; i++) {
 			g.playHand();
 		}
-
 	}
-
 }

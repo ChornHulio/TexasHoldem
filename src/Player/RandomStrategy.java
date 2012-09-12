@@ -26,8 +26,6 @@ public class RandomStrategy implements IStrategy{
 	}
 
 	public static void main(String[] args) {
-		System.out.println(new RandomStrategy().chooseAction());
-
+		// for debugging purpose only
 	}
-
 }

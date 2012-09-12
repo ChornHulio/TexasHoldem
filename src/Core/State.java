@@ -1,9 +1,6 @@
 package Core;
 import java.util.ArrayList;
 
-import Player.IPlayer;
-
-
 public class State {
 	
 	public enum STAGE{
@@ -79,8 +76,6 @@ public class State {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		// for debugging purpose only
 	}
-
 }

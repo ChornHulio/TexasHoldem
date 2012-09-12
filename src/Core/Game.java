@@ -9,7 +9,7 @@ public class Game {
 	private int bettingRounds;
 	private State state;
 	private ArrayList<IPlayer> playerList = new ArrayList<IPlayer>();
-	private Deck deck = new Deck();
+	private Deck deck;
 
 	public Game(int bettingRounds, int bigBlindSize) throws Exception {
 		this.bettingRounds = bettingRounds;
@@ -17,6 +17,7 @@ public class Game {
 	}
 
 	public void playHand() throws Exception {
+		deck = new Deck();
 		anounceNewHand();
 		dealHoleCards();
 		playRound();
@@ -26,7 +27,7 @@ public class Game {
 		anounceNewRound();
 		state.addSharedCards(deck.drawCards(1)); // Turn
 		playRound();
-		anounceNewRound(); // TODO deal flop, turn, river and playRound()
+		anounceNewRound();
 		state.addSharedCards(deck.drawCards(1)); // River
 		playRound();
 		
@@ -63,7 +64,7 @@ public class Game {
 		// the first player to bet is the 3. after dealer
 		int currentPlayer = (state.getDealerPosition() + 3) % playerList.size(); 
 		for (int i = 0; i < bettingRounds; i++) {
-			for (IPlayer player : playerList) {
+			for (@SuppressWarnings("unused") IPlayer player : playerList) {
 				if(((playerDecrement--)) <= 0){
 					// in order to leave both loops:
 					i = bettingRounds;
@@ -124,8 +125,6 @@ public class Game {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		// for debugging purpose only
 	}
-
 }

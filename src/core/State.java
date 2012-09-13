@@ -19,6 +19,7 @@ public class State {
 	 * The highest amount, that has been set by a player during the current round of betting 
 	 */
 	private int biggestRaise = 0;
+	private int playersLeft = 0;
 	
 
 	public STAGE getStage() {
@@ -55,6 +56,18 @@ public class State {
 
 	public int getDealerPosition() {
 		return dealerPosition;
+	}
+	
+	public int getPlayersLeft() {
+		return playersLeft;
+	}
+	
+	public void setPlayersLeft(int players) {
+		playersLeft = players;
+	}
+	
+	public void decrementPlayersLeft() {
+		playersLeft--;
 	}
 
 	public void setDealerPosition(int dealerPosition) {

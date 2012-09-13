@@ -107,6 +107,7 @@ public class Game {
 
 	public void anounceNewHand() throws Exception {
 		onlyOnePlayerLeft = false;
+		state.setPlayersLeft(playerList.size());
 		for (IPlayer player : playerList) {
 			player.newHand();
 		}
@@ -167,6 +168,7 @@ public class Game {
 					}
 					if (action.action == ACTION.FOLD) {
 						playersFolded++;
+						state.decrementPlayersLeft();
 						if (playersFolded >= playerList.size() - 1) {
 							onlyOnePlayerLeft = true;
 							return;

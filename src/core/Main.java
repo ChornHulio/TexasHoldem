@@ -1,22 +1,31 @@
 package core;
 
 import player.ComputerPlayer;
+import player.HandStrengthStrategy;
 import player.RandomStrategy;
 import player.SimplePowerRankingStrategy;
 import player.SimplePowerRankingStrategy.AGGRESSIVITY;
+import rollout.PreFlop;
 
 public class Main {
+	
+	public static final boolean DEBUG = false;
 
 	public static void main(String[] args) throws Exception {
 		int bettingRounds = 3;
 		int bigBlindSize = 2;
-		int hands = 100;
+		int hands = 10000;
 		int initialMoney = 0;
 		
 		int randomPlayers = 2;
 		int simplePowerRankingPlayersConservative = 2;
 		int simplePowerRankingPlayersModerate = 2;
 		int simplePowerRankingPlayersRisky = 2;
+		int handStrengthPlayers = 2;
+		
+		int playersInTotal = 10;
+		String pathnameToRollout = "./rollouts";
+		PreFlop preFlop = new PreFlop(playersInTotal, pathnameToRollout);
 		
 		// init
 		Game g = new Game(bettingRounds, bigBlindSize);
@@ -31,6 +40,9 @@ public class Main {
 		}
 		for (int i = 0; i < simplePowerRankingPlayersRisky; i++) {
 			g.addPlayer(new ComputerPlayer(g.getState(), new SimplePowerRankingStrategy(AGGRESSIVITY.RISKY), initialMoney));
+		}
+		for (int i = 0; i < handStrengthPlayers; i++) {
+			g.addPlayer(new ComputerPlayer(g.getState(), new HandStrengthStrategy(preFlop), initialMoney));
 		}
 		
 		// play

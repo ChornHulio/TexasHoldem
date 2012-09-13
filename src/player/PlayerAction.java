@@ -16,7 +16,7 @@ public class PlayerAction {
 	@Override
 	public String toString() {
 		if(action == ACTION.FOLD) {
-			return "" + action + " | loss: " + (toPay + oldStake);
+			return "" + action;
 		}
 		return "" + action + " | bet: " + (toPay + oldStake);
 	}

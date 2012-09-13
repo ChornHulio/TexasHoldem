@@ -51,7 +51,7 @@ public class Rollout {
 		return simulateHandWithSharedCards(holeCards, null, iterations, players);
 	}
 
-	private double simulateHandWithSharedCards(ArrayList<Card> holeCards, ArrayList<Card> sharedCardsArg, int iterations, int players) throws Exception {
+	public double simulateHandWithSharedCards(ArrayList<Card> holeCards, ArrayList<Card> sharedCardsArg, int iterations, int players) throws Exception {
 		double wins = 0;
 		for (int i = 0; i < iterations; i++) {
 			Deck deck = new Deck();
@@ -94,8 +94,8 @@ public class Rollout {
 	
 	
 	public static void main(String[] args) throws Exception {
-		int iterations = 10000;
-		int maxPlayers = 2;
+		int iterations = 100000;
+		int maxPlayers = 10;
 		long time = System.currentTimeMillis();
 		new Rollout().doRollouts(iterations, maxPlayers, "./rollouts/");
 		System.out.println("computation time: " + (System.currentTimeMillis() - time));

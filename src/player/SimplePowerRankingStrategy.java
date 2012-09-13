@@ -75,9 +75,9 @@ public class SimplePowerRankingStrategy implements IStrategy{
 			cards.addAll(player.getHoleCards());
 			cards.addAll(state.getSharedCards());
 			CardPower cardPower = new PowerRanking().calcCardPower(cards);
-			if(cardPower.compareTo(thresholds[aggressivity.ordinal()][raiseIndex]) > 0) { // TODO test > 0
+			if(cardPower.compareTo(thresholds[aggressivity.ordinal()][raiseIndex]) > 0) {
 				action.action = ACTION.RAISE;
-			} else if(cardPower.compareTo(thresholds[aggressivity.ordinal()][callIndex]) > 0) { // TODO test > 0
+			} else if(cardPower.compareTo(thresholds[aggressivity.ordinal()][callIndex]) > 0) {
 				action.action = ACTION.CALL;
 			} else {
 				action.action = ACTION.FOLD;

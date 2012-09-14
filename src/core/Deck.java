@@ -46,14 +46,33 @@ public class Deck {
 		throw new Exception("Card not in deck");
 	}
 
+	public ArrayList<ArrayList<Card>> holeCardsCombinations() {
+		ArrayList<ArrayList<Card>> combinations = new ArrayList<ArrayList<Card>>();
+		for (int i = 0; i < cards.size(); i++) { 
+			for (int j = i + 1; j < cards.size(); j++) {
+				ArrayList<Card> combination = new ArrayList<Card>();
+				combination.add(cards.get(i));
+				combination.add(cards.get(j));
+				combinations.add(combination);
+			}
+		}
+		return combinations;
+	}
+
 	public static void main(String[] args) throws Exception {
 		Card c1 = new Card(SIGN.CLUBS, VALUE.TEN);
 		Card c2 = new Card(SIGN.CLUBS, VALUE.JACK);
-		Card c3 = new Card(SIGN.CLUBS, VALUE.TEN);
+		Card c3 = new Card(SIGN.CLUBS, VALUE.QUEEN);
+		Card c4 = new Card(SIGN.CLUBS, VALUE.KING);
+		Card c5 = new Card(SIGN.CLUBS, VALUE.ACE);
 
 		Deck deck = new Deck();
-		System.out.println(deck.removeCard(c1));
-		System.out.println(deck.removeCard(c2));
-		System.out.println(deck.removeCard(c3));
+		System.out.println(deck.holeCardsCombinations().size());
+		deck.removeCard(c1);
+		deck.removeCard(c2);
+		deck.removeCard(c3);
+		deck.removeCard(c4);
+		deck.removeCard(c5);
+		System.out.println(deck.holeCardsCombinations().size());
 	}
 }

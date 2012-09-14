@@ -1,5 +1,7 @@
 package player;
 
+import java.util.ArrayList;
+
 import player.PlayerAction.ACTION;
 import rollout.PreFlop;
 import rollout.Rollout;
@@ -10,14 +12,14 @@ import core.State.STAGE;
 
 public class HandStrengthStrategy implements IStrategy{
 	
-	PreFlop preFlop;
+	ArrayList<PreFlop> preFlop;
 	double callMin = 0.5;
 	double callMax = 1.2;
-	double lambda = 4.0;
+	double lambda = 10.0; // multiplier for e function
 	int iterationsOfRollout = 1000;
 	
-	public HandStrengthStrategy(PreFlop preFlop) {
-		this.preFlop = preFlop;
+	public HandStrengthStrategy(ArrayList<PreFlop> preFlops) {
+		this.preFlop = preFlops;
 	}
 
 	/**
@@ -30,25 +32,25 @@ public class HandStrengthStrategy implements IStrategy{
 		PlayerAction action = new PlayerAction();
 		action.oldStake = player.getCurrentBet();
 		
-		// to pay to call
-		int toPay = Math.max(state.getBiggestRaise(),state.getBigBlindSize()*2) - player.getCurrentBet();
+		// minimum raise
+		int payToCall = state.getBiggestRaise() - player.getCurrentBet();
 		
 		double handStrengh = 0;
 		
 		if (state.getStage() == STAGE.PREFLOP) { // Preflop: look at preflop rollout
-			handStrengh = preFlop.getStrength(player.getHoleCards());
+			handStrengh = preFlop.get(state.getPlayersNotFolded() - 2).getStrength(player.getHoleCards());
 		} else {
-			handStrengh = new Rollout().simulateHandWithSharedCards(player.getHoleCards(), state.getSharedCards(), iterationsOfRollout, state.getPlayersLeft());
+			handStrengh = new Rollout().simulateHandWithSharedCards(player.getHoleCards(), state.getSharedCards(), state.getPlayersNotFolded());
 		}
 		int willingToPay = (int) Math.exp(lambda * handStrengh);
-		if(willingToPay < toPay * callMin) {
+		if(willingToPay < payToCall * callMin) {
 			action.action = ACTION.FOLD;
-		} else if(willingToPay < toPay * callMax) {
+		} else if(Math.max(willingToPay,state.getBigBlindSize()) < payToCall * callMax) {
 			action.action = ACTION.CALL;
 			action.toPay = state.getBiggestRaise() - player.getCurrentBet();
 		} else {
 			action.action = ACTION.RAISE;
-			action.toPay = willingToPay;
+			action.toPay = Math.max(willingToPay,state.getBigBlindSize());
 		}
 		return action;
 	}

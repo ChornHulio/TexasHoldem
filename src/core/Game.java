@@ -16,7 +16,6 @@ public class Game {
 	private ArrayList<IPlayer> playerList = new ArrayList<IPlayer>();
 	private Deck deck;
 	private int numberOfHand;
-	boolean onlyOnePlayerLeft = false;
 
 	public Game(int bettingRounds, int bigBlindSize) throws Exception {
 		this.bettingRounds = bettingRounds;
@@ -29,23 +28,23 @@ public class Game {
 		anounceNewHand();
 		dealHoleCards();
 		playRound();
-		if (!onlyOnePlayerLeft) {
+		if (state.getPlayersNotFolded() > 1) {
 			anounceNewRound();
 			state.addSharedCards(deck.drawCards(3)); // Flop
 			playRound();
 		}
-		if (!onlyOnePlayerLeft) {
+		if (state.getPlayersNotFolded() > 1) {
 			anounceNewRound();
 			state.addSharedCards(deck.drawCards(1)); // Turn
 			playRound();
 		}
-		if (!onlyOnePlayerLeft) {
+		if (state.getPlayersNotFolded() > 1) {
 			anounceNewRound();
 			state.addSharedCards(deck.drawCards(1)); // River
 			playRound();
 		}
 		ArrayList<Integer> winners = null;
-		if (!onlyOnePlayerLeft) {
+		if (state.getPlayersNotFolded() > 1) {
 			state.setStage(STAGE.SHOWDOWN);
 			winners = findWinner();
 		} else {
@@ -106,8 +105,7 @@ public class Game {
 	}
 
 	public void anounceNewHand() throws Exception {
-		onlyOnePlayerLeft = false;
-		state.setPlayersLeft(playerList.size());
+		state.setPlayersNotFolded(playerList.size());
 		for (IPlayer player : playerList) {
 			player.newHand();
 		}
@@ -129,12 +127,13 @@ public class Game {
 	private void playRound() throws Exception {
 		Logger.logDebug(state.getRoundString());
 		for (int i = 0; i < playerList.size(); i++) {
-			Logger.logDebug("\tPlayer " + i + ": hole cards: "
-					+ playerList.get(i).getHoleCards().toString() + " | cash: " + playerList.get(i).getMoney());
+			if(!playerList.get(i).hasFolded()) {
+				Logger.logDebug("\tPlayer " + i + ": hole cards: "
+						+ playerList.get(i).getHoleCards().toString() + " | cash: " + playerList.get(i).getMoney());
+			}
 		}
 
 		int playerDecrement = playerList.size();
-		int playersFolded = 0;
 
 		// the first player to bet is the 3. after dealer
 		int currentPlayer = (state.getDealerPosition() + 3) % playerList.size();
@@ -147,9 +146,7 @@ public class Game {
 				}
 				if (getPlayer(currentPlayer).hasFolded()) {
 					currentPlayer++;
-					playersFolded++;
-					if (playersFolded >= playerList.size() - 1) {
-						onlyOnePlayerLeft = true;
+					if(state.getPlayersNotFolded() <= 1) {
 						return;
 					}
 				} else {
@@ -159,7 +156,6 @@ public class Game {
 							% playerList.size() + " | " + action.toString());
 					if (action.action == ACTION.RAISE) {
 						playerDecrement = playerList.size() - 1;
-						playersFolded = 0;
 					}
 					if (action.action == ACTION.CALL
 							|| action.action == ACTION.RAISE) {
@@ -167,10 +163,8 @@ public class Game {
 						state.setBiggestRaise(action.oldStake + action.toPay);
 					}
 					if (action.action == ACTION.FOLD) {
-						playersFolded++;
-						state.decrementPlayersLeft();
-						if (playersFolded >= playerList.size() - 1) {
-							onlyOnePlayerLeft = true;
+						state.decrementPlayersNotFolded();
+						if(state.getPlayersNotFolded() <= 1) {
 							return;
 						}
 					}
@@ -225,8 +219,11 @@ public class Game {
 		return playerList.get(currentplayer % playerList.size());
 	}
 
-	public void addPlayer(IPlayer player) {
+	public void addPlayer(IPlayer player) throws Exception {
 		playerList.add(player);
+		if(playerList.size() > 10) {
+			throw new Exception("Too many players");
+		}
 	}
 
 	public State getState() {

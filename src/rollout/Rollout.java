@@ -48,22 +48,11 @@ public class Rollout {
 	}
 
 	private double simulateHand(ArrayList<Card> holeCards, int iterations, int players) throws Exception {
-		return simulateHandWithSharedCards(holeCards, null, iterations, players);
-	}
-
-	public double simulateHandWithSharedCards(ArrayList<Card> holeCards, ArrayList<Card> sharedCardsArg, int iterations, int players) throws Exception {
 		double wins = 0;
 		for (int i = 0; i < iterations; i++) {
 			Deck deck = new Deck();
 			deck.removeCards(holeCards);
-			ArrayList<Card> sharedCards = new ArrayList<Card>();
-			if(sharedCardsArg == null) {
-				sharedCards = deck.drawCards(5);
-			} else {
-				sharedCards.addAll(sharedCardsArg);
-				deck.removeCards(sharedCards);
-			}
-			
+			ArrayList<Card> sharedCards = deck.drawCards(5);
 			ArrayList<Card> sharedAndHoleCards = new ArrayList<Card>();
 			sharedAndHoleCards.addAll(holeCards);
 			sharedAndHoleCards.addAll(sharedCards);
@@ -90,6 +79,43 @@ public class Rollout {
 		}
 		return wins / iterations;
 	}
+
+	// TODO: bug fixen 
+	public double simulateHandWithSharedCards(ArrayList<Card> holeCards, ArrayList<Card> sharedCards, int players) throws Exception {
+		if (sharedCards.size() < 3) {
+			throw new Exception("Less then 3 shared cards");
+		}
+		
+		Deck deck = new Deck();
+		deck.removeCards(holeCards);
+		deck.removeCards(sharedCards);
+		ArrayList<Card> sharedAndHoleCards = new ArrayList<Card>();
+		sharedAndHoleCards.addAll(holeCards);
+		sharedAndHoleCards.addAll(sharedCards);
+		
+		CardPower power = new PowerRanking().calcCardPower(sharedAndHoleCards);
+		
+		ArrayList<ArrayList<Card>> holeCardsCombinations = deck.holeCardsCombinations();
+		
+		int wins = 0;
+		int ties = 0;
+		int losses = 0;
+		for (ArrayList<Card>  opponentHoleCards: holeCardsCombinations) {
+			
+			ArrayList<Card> opponentSharedAndHoleCards = new ArrayList<Card>();
+			opponentSharedAndHoleCards.addAll(opponentHoleCards);
+			opponentSharedAndHoleCards.addAll(sharedCards);
+			CardPower opponentPower = new PowerRanking().calcCardPower(opponentSharedAndHoleCards);
+			if (opponentPower.compareTo(power) == 0) { // tie
+				ties++; 
+			} else if(opponentPower.compareTo(power) > 0) { // loss
+				losses++; 
+			} else {
+				wins++;
+			}
+		}
+		return Math.pow(wins + 0.5 * ties / ( wins + ties + losses), players);
+	}
 	
 	
 	
@@ -97,7 +123,7 @@ public class Rollout {
 		int iterations = 100000;
 		int maxPlayers = 10;
 		long time = System.currentTimeMillis();
-		new Rollout().doRollouts(iterations, maxPlayers, "./rollouts/");
+		new Rollout().doRollouts(iterations, maxPlayers, "./rolloutsDebug/");
 		System.out.println("computation time: " + (System.currentTimeMillis() - time));
 	}
 

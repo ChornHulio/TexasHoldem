@@ -1,5 +1,7 @@
 package core;
 
+import java.util.ArrayList;
+
 import player.ComputerPlayer;
 import player.HandStrengthStrategy;
 import player.RandomStrategy;
@@ -9,12 +11,12 @@ import rollout.PreFlop;
 
 public class Main {
 	
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true;
 
 	public static void main(String[] args) throws Exception {
 		int bettingRounds = 3;
 		int bigBlindSize = 2;
-		int hands = 10000;
+		int hands = 100;
 		int initialMoney = 0;
 		
 		int randomPlayers = 2;
@@ -25,7 +27,10 @@ public class Main {
 		
 		int playersInTotal = 10;
 		String pathnameToRollout = "./rollouts";
-		PreFlop preFlop = new PreFlop(playersInTotal, pathnameToRollout);
+		ArrayList<PreFlop> preFlops = new ArrayList<PreFlop>();
+		for (int i = 2; i <= playersInTotal; i++) {
+			preFlops.add(new PreFlop(i, pathnameToRollout));
+		}
 		
 		// init
 		Game g = new Game(bettingRounds, bigBlindSize);
@@ -42,7 +47,7 @@ public class Main {
 			g.addPlayer(new ComputerPlayer(g.getState(), new SimplePowerRankingStrategy(AGGRESSIVITY.RISKY), initialMoney));
 		}
 		for (int i = 0; i < handStrengthPlayers; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new HandStrengthStrategy(preFlop), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new HandStrengthStrategy(preFlops), initialMoney));
 		}
 		
 		// play

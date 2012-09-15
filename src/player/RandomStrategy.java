@@ -49,4 +49,9 @@ public class RandomStrategy implements IStrategy{
 	public String printLastAction() {
 		return "" + lastAction.toString();
 	}
+
+	@Override
+	public String printStrategy() {
+		return "Random";
+	}
 }

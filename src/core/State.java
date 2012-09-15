@@ -20,7 +20,14 @@ public class State {
 	 */
 	private int biggestRaise = 0;
 	private int playersNotFolded = 0;
+	int numberOfRaises = 0;
 	
+	public State(int bigBlindSize) throws Exception {
+		if (bigBlindSize % 2 != 0) {
+			throw new Exception("Big blind uneven!");
+		}
+		this.bigBlindSize = bigBlindSize;
+	}	
 
 	public STAGE getStage() {
 		return stage;
@@ -87,13 +94,15 @@ public class State {
 		biggestRaise = 0;
 		stage = State.STAGE.PREFLOP;
 		pot = 0;
+		numberOfRaises = 0;
 	}
-
-	public State(int bigBlindSize) throws Exception {
-		if (bigBlindSize % 2 != 0) {
-			throw new Exception("Big blind uneven!");
-		}
-		this.bigBlindSize = bigBlindSize;
+	
+	public int getNumberOfRaises() {
+		return numberOfRaises;
+	}
+	
+	public void incrementNumberOfRaises() {
+		numberOfRaises++;
 	}
 	
 	public String toString(){
@@ -106,9 +115,5 @@ public class State {
 	
 	public String getRoundString() {
 		return "\tStage: " + stage + " | Pot: " + pot +  " | Shared cards: " + sharedCards;
-	}
-
-	public static void main(String[] args) {
-		// for debugging purpose only
 	}
 }

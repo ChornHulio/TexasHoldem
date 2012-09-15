@@ -80,7 +80,6 @@ public class Rollout {
 		return wins / iterations;
 	}
 
-	// TODO: bug fixen 
 	public double simulateHandWithSharedCards(ArrayList<Card> holeCards, ArrayList<Card> sharedCards, int players) throws Exception {
 		if (sharedCards.size() < 3) {
 			throw new Exception("Less then 3 shared cards");
@@ -110,14 +109,50 @@ public class Rollout {
 				ties++; 
 			} else if(opponentPower.compareTo(power) > 0) { // loss
 				losses++; 
-			} else {
+			} else { // win
 				wins++;
 			}
 		}
 		return Math.pow((wins + 0.5 * ties) / ( wins + ties + losses), players);
 	}
 	
-	
+	public double simulateHandWithSharedCardsAndRandom(ArrayList<Card> holeCards, ArrayList<Card> sharedCardsArg, int players, int iterations) throws Exception {
+		int wins = 0;
+		int ties = 0;
+		int losses = 0;
+		for (int i = 0; i <= iterations*(5-sharedCardsArg.size()); i++) {
+			Deck deck = new Deck();
+			deck.removeCards(holeCards);
+			deck.removeCards(sharedCardsArg);
+			
+			ArrayList<Card> sharedCards = deck.drawCards(5-sharedCardsArg.size());
+			sharedCards.addAll(sharedCardsArg);			
+			
+			ArrayList<Card> sharedAndHoleCards = new ArrayList<Card>();
+			sharedAndHoleCards.addAll(holeCards);
+			sharedAndHoleCards.addAll(sharedCards);
+			
+			CardPower power = new PowerRanking().calcCardPower(sharedAndHoleCards);
+			
+			ArrayList<ArrayList<Card>> holeCardsCombinations = deck.holeCardsCombinations();
+			
+			for (ArrayList<Card>  opponentHoleCards: holeCardsCombinations) {
+				
+				ArrayList<Card> opponentSharedAndHoleCards = new ArrayList<Card>();
+				opponentSharedAndHoleCards.addAll(opponentHoleCards);
+				opponentSharedAndHoleCards.addAll(sharedCards);
+				CardPower opponentPower = new PowerRanking().calcCardPower(opponentSharedAndHoleCards);
+				if (opponentPower.compareTo(power) == 0) { // tie
+					ties++; 
+				} else if(opponentPower.compareTo(power) > 0) { // loss
+					losses++; 
+				} else { // win
+					wins++;
+				}
+			}
+		}		
+		return Math.pow((wins + 0.5 * ties) / ( wins + ties + losses), players);
+	}
 	
 	public static void main(String[] args) throws Exception {
 		int iterations = 100000;

@@ -6,6 +6,7 @@ import player.PlayerAction.ACTION;
 
 import core.Card;
 import core.State;
+import core.State.STAGE;
 
 public class ComputerPlayer implements IPlayer {
 
@@ -69,6 +70,12 @@ public class ComputerPlayer implements IPlayer {
 			return action;
 		}
 		action = strategy.chooseAction(state, this);
+		if (action.action == ACTION.FOLD) {
+			if (state.getStage().ordinal() >= STAGE.RIVER.ordinal()) {
+				System.out.println("wtf!");
+				
+			}
+		}
 		if (action.action == PlayerAction.ACTION.CALL
 				|| (action.action == PlayerAction.ACTION.RAISE && !raiseAllowed)) {
 			action.action = PlayerAction.ACTION.CALL;
@@ -108,5 +115,10 @@ public class ComputerPlayer implements IPlayer {
 	@Override
 	public String printLastAction() {
 		return strategy.printLastAction();
+	}
+
+	@Override
+	public String printStrategy() {
+		return strategy.printStrategy();
 	}
 }

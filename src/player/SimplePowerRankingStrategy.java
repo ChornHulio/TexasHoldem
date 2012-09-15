@@ -14,12 +14,6 @@ import core.State.STAGE;
 
 public class SimplePowerRankingStrategy implements IStrategy{
 	
-	public enum AGGRESSIVITY{
-		CONSERVATIVE,
-		MODERATE,
-		RISKY;
-	}
-	
 	Random generator = new Random();
 	AGGRESSIVITY aggressivity = AGGRESSIVITY.MODERATE;
 	CardPower[][] thresholds;
@@ -38,15 +32,14 @@ public class SimplePowerRankingStrategy implements IStrategy{
 			}
 		}
 
-		// TODO: tresholds ändern, damit die schlechten spieler besser sind, als die random
-		thresholds[AGGRESSIVITY.CONSERVATIVE.ordinal()][callIndex].add(2).add(-1); // calls if >= two pairs
-		thresholds[AGGRESSIVITY.CONSERVATIVE.ordinal()][raiseIndex].add(3).add(-1);  // raises >= three of a kind
+		thresholds[AGGRESSIVITY.CONSERVATIVE.ordinal()][callIndex].add(3).add(-1); // calls if >= two pairs
+		thresholds[AGGRESSIVITY.CONSERVATIVE.ordinal()][raiseIndex].add(4).add(-1);  // raises >= three of a kind
 
-		thresholds[AGGRESSIVITY.MODERATE.ordinal()][callIndex].add(1).add(-1); // calls if >= pairs
-		thresholds[AGGRESSIVITY.MODERATE.ordinal()][raiseIndex].add(2).add(-1); // raises if >= two pairs
+		thresholds[AGGRESSIVITY.MODERATE.ordinal()][callIndex].add(2).add(-1); // calls if >= pairs
+		thresholds[AGGRESSIVITY.MODERATE.ordinal()][raiseIndex].add(3).add(-1); // raises if >= two pairs
 
-		thresholds[AGGRESSIVITY.RISKY.ordinal()][callIndex].add(0).add(10).add(-1); // calls if >= king high
-		thresholds[AGGRESSIVITY.RISKY.ordinal()][raiseIndex].add(1).add(-1); // raises if >= pairs
+		thresholds[AGGRESSIVITY.RISKY.ordinal()][callIndex].add(1).add(-1); // calls if >= king high
+		thresholds[AGGRESSIVITY.RISKY.ordinal()][raiseIndex].add(2).add(-1); // raises if >= pairs
 	}
 
 	/**
@@ -113,5 +106,10 @@ public class SimplePowerRankingStrategy implements IStrategy{
 	@Override
 	public String printLastAction() {
 		return "" + lastAction.toString();
+	}
+
+	@Override
+	public String printStrategy() {
+		return "SimplePowerRanking | " + aggressivity;
 	}
 }

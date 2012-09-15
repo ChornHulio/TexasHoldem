@@ -67,10 +67,11 @@ public class Game {
 				ArrayList<Card> winnerCards = new ArrayList<Card>();
 				winnerCards.addAll(playerList.get(winner).getHoleCards());
 				winnerCards.addAll(state.getSharedCards());
-				Logger.logDebug("\t\t(Showdown) Winner: " + winner
+				Logger.logDebug("\t\t(Showdown) Winner: "
+						+ winner
 						+ " with cards power: "
-						+ new PowerRanking().calcCardPower(winnerCards).toString()
-						+ " | win: " + splittedPot);
+						+ new PowerRanking().calcCardPower(winnerCards)
+								.toString() + " | win: " + splittedPot);
 			}
 		} else {
 			playerList.get(winners.get(0)).receiveMoney(state.getPot());
@@ -127,9 +128,10 @@ public class Game {
 	private void playRound() throws Exception {
 		Logger.logDebug(state.getRoundString());
 		for (int i = 0; i < playerList.size(); i++) {
-			if(!playerList.get(i).hasFolded()) {
+			if (!playerList.get(i).hasFolded()) {
 				Logger.logDebug("\tPlayer " + i + ": hole cards: "
-						+ playerList.get(i).getHoleCards().toString() + " | cash: " + playerList.get(i).getMoney());
+						+ playerList.get(i).getHoleCards().toString()
+						+ " | cash: " + playerList.get(i).getMoney());
 			}
 		}
 
@@ -145,30 +147,35 @@ public class Game {
 					break;
 				}
 				if (getPlayer(currentPlayer).hasFolded()) {
-					currentPlayer++;
-					if(state.getPlayersNotFolded() <= 1) {
+					if (state.getPlayersNotFolded() <= 1) {
 						return;
 					}
 				} else {
-					PlayerAction action = getPlayer(currentPlayer++).makeBet(
+					PlayerAction action = getPlayer(currentPlayer).makeBet(
 							true);
-					Logger.logDebug("\t\tPlayer: " + (currentPlayer - 1)
-							% playerList.size() + " | " + playerList.get((currentPlayer - 1)% playerList.size()).printLastAction());
-					if (action.action == ACTION.RAISE) {
-						playerDecrement = playerList.size() - 1;
-					}
+					Logger.logDebug("\t\tPlayer: "
+							+ (currentPlayer)
+							% playerList.size()
+							+ " | "
+							+ playerList.get(
+									(currentPlayer) % playerList.size())
+									.printLastAction());
 					if (action.action == ACTION.CALL
 							|| action.action == ACTION.RAISE) {
 						state.raisePot(action.toPay);
 						state.setBiggestRaise(action.oldStake + action.toPay);
-					}
-					if (action.action == ACTION.FOLD) {
+						if (action.action == ACTION.RAISE) {
+							playerDecrement = playerList.size() - 1;
+							state.incrementNumberOfRaises();
+						}
+					} else { // fold
 						state.decrementPlayersNotFolded();
-						if(state.getPlayersNotFolded() <= 1) {
+						if (state.getPlayersNotFolded() <= 1) {
 							return;
 						}
 					}
 				}
+				currentPlayer++;
 			}
 		}
 		// if the betting rounds are over but not every player has checked or
@@ -179,10 +186,21 @@ public class Game {
 				PlayerAction action = getPlayer(currentPlayer).makeBet(false); // raise
 																				// NOT
 																				// allowed
-				Logger.logDebug("\t\tPlayer: " + (currentPlayer)
-						% playerList.size() + " | " + " | " + playerList.get((currentPlayer - 1)% playerList.size()).printLastAction());
+				Logger.logDebug("\t\tPlayer: "
+						+ (currentPlayer)
+						% playerList.size()
+						+ " | "
+						+ " | "
+						+ playerList.get(
+								(currentPlayer - 1) % playerList.size())
+								.printLastAction());
 				if (action.action == ACTION.CALL) {
 					state.raisePot(action.toPay);
+				} else { // fold
+					state.decrementPlayersNotFolded();
+					if (state.getPlayersNotFolded() <= 1) {
+						return;
+					}
 				}
 			}
 			currentPlayer++;
@@ -221,7 +239,7 @@ public class Game {
 
 	public void addPlayer(IPlayer player) throws Exception {
 		playerList.add(player);
-		if(playerList.size() > 10) {
+		if (playerList.size() > 10) {
 			throw new Exception("Too many players");
 		}
 	}
@@ -233,7 +251,9 @@ public class Game {
 	public void printCredits() {
 		Logger.logDebug("\n=== Player Credits ====");
 		for (int i = 0; i < playerList.size(); i++) {
-			Logger.logInfo("Player " + i + ": " + playerList.get(i).getMoney());
+			Logger.logInfo("Player " + i + " ("
+					+ playerList.get(i).printStrategy() + ") : "
+					+ playerList.get(i).getMoney());
 		}
 
 	}

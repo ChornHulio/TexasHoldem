@@ -18,4 +18,5 @@ public interface IPlayer {
 	public int getMoney();
 	public int getCurrentBet();
 	public String printLastAction();
+	public String printStrategy();
 }

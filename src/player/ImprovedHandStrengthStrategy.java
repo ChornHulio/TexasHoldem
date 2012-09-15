@@ -10,18 +10,20 @@ import core.State;
 import core.State.STAGE;
 
 
-public class HandStrengthStrategy implements IStrategy{
+public class ImprovedHandStrengthStrategy implements IStrategy{
 	
 	ArrayList<PreFlop> preFlop;
 	double lambda = 6.0; // multiplier for e function
 	AGGRESSIVITY aggressivity = AGGRESSIVITY.MODERATE;
+	int iterationsOfRollout = 1000;
 	PlayerAction lastAction;
 	double lastHandStrength;
 	double lastPotOdd;
 	
-	public HandStrengthStrategy(ArrayList<PreFlop> preFlops, AGGRESSIVITY aggressivity) {
+	public ImprovedHandStrengthStrategy(ArrayList<PreFlop> preFlops, AGGRESSIVITY aggressivity, int iterationsOfRollout) {
 		this.preFlop = preFlops;
 		this.aggressivity = aggressivity;
+		this.iterationsOfRollout = iterationsOfRollout;
 	}
 
 	/**
@@ -42,7 +44,7 @@ public class HandStrengthStrategy implements IStrategy{
 		if (state.getStage() == STAGE.PREFLOP) { // Preflop: look at preflop rollout
 			handStrengh = preFlop.get(state.getPlayersNotFolded() - 2).getStrength(player.getHoleCards());
 		} else {
-			handStrengh = new Rollout().simulateHandWithSharedCards(player.getHoleCards(), state.getSharedCards(), state.getPlayersNotFolded());
+			handStrengh = new Rollout().simulateHandWithSharedCardsAndRandom(player.getHoleCards(), state.getSharedCards(), state.getPlayersNotFolded(),iterationsOfRollout);
 		}
 		int willingToPay = (int) Math.exp((aggressivity.ordinal() + lambda) * handStrengh);
 		if (willingToPay > Integer.MAX_VALUE || willingToPay < 0) {
@@ -70,6 +72,6 @@ public class HandStrengthStrategy implements IStrategy{
 
 	@Override
 	public String printStrategy() {
-		return "HandStrengh | " + aggressivity;
+		return "ImprovedHandStrengh | " + aggressivity;
 	}
 }

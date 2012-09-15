@@ -56,17 +56,17 @@ public class HandStrengthStrategy implements IStrategy {
 		}
 
 		lastPotOdd = (double) payToCall / (payToCall + state.getPot());
-		int minimumRaise = Math.max(state.getBiggestRaise(),
+		int minimumRaise = Math.max(state.getBiggestRaise(), // TODO: bug? mindesens um big blind raisen?
 				state.getBigBlindSize());
 		if (willingToPay < payToCall * lastPotOdd) {
 			lastAction.action = ACTION.FOLD;
 		} else if (Math.max(willingToPay, minimumRaise) < payToCall
-				* (1 / (1 + state.getNumberOfRaises()))) {
+				* (1.0 / (1.0 + state.getNumberOfRaises())) || minimumRaise >= willingToPay) {
 			lastAction.action = ACTION.CALL;
 			lastAction.toPay = state.getBiggestRaise() - player.getCurrentBet();
 		} else {
 			lastAction.action = ACTION.RAISE;
-			lastAction.toPay = Math.max(willingToPay, minimumRaise);
+			lastAction.toPay = Math.max(willingToPay, minimumRaise); // TODO: bug. raise obwohl call // fixed durch || minimumRaise >= willingToPay (drüber)
 		}
 		lastHandStrength = handStrengh;
 		return lastAction;
@@ -74,8 +74,11 @@ public class HandStrengthStrategy implements IStrategy {
 
 	@Override
 	public String printLastAction() {
+		if (lastHandStrength > 1) {
+			System.out.println("wtf!"); // TODO: delete
+		}
 		return "strength: "
-				+ Double.toString(lastHandStrength).concat("00000")
+				+ Double.toString(lastHandStrength).concat("00000") // TODO: handStrength anzeige 2.472 E-4
 						.substring(0, 5) + " | potOdd: "
 				+ Double.toString(lastPotOdd).concat("00000").substring(0, 5)
 				+ " | " + lastAction.toString();

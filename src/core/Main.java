@@ -6,6 +6,7 @@ import player.ComputerPlayer;
 import player.HandStrengthStrategy;
 import player.IStrategy.AGGRESSIVITY;
 import player.ImprovedHandStrengthStrategy;
+import player.OpponentModellingStrategy;
 import player.RandomStrategy;
 import player.SimplePowerRankingStrategy;
 import rollout.PreFlop;
@@ -22,16 +23,19 @@ public class Main {
 		int initialMoney = 0;
 		int iterationsOfRollouts = 20; // for ImprovedHandStrenghStrategy
 		
-		int randomPlayers = 2;
-		int simplePowerRankingPlayersRisky = 2;
+		int randomPlayers = 0;
+		int simplePowerRankingPlayersRisky = 0;
 		int simplePowerRankingPlayersModerate = 0;
-		int simplePowerRankingPlayersConservative = 2;
+		int simplePowerRankingPlayersConservative = 0;
 		int handStrengthPlayersRisky = 2;
-		int handStrengthPlayersModerate = 0;
+		int handStrengthPlayersModerate = 2;
 		int handStrengthPlayersConservative = 2;
 		int improvedHandStrengthPlayersRisky = 0;
 		int improvedHandStrengthPlayersModerate = 0;
 		int improvedHandStrengthPlayersConservative = 0;
+		int modellingPlayersConservativeRisky = 0;
+		int modellingPlayersConservativeModerate = 0;
+		int modellingPlayersConservativeConservative = 0;
 		
 		String pathnameToRollout = "./rollouts";
 		ArrayList<PreFlop> preFlops = new ArrayList<PreFlop>();
@@ -63,13 +67,22 @@ public class Main {
 			g.addPlayer(new ComputerPlayer(g.getState(), new HandStrengthStrategy(preFlops, AGGRESSIVITY.CONSERVATIVE), initialMoney));
 		}
 		for (int i = 0; i < improvedHandStrengthPlayersRisky; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new ImprovedHandStrengthStrategy(preFlops,AGGRESSIVITY.RISKY, iterationsOfRollouts), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new ImprovedHandStrengthStrategy(preFlops, AGGRESSIVITY.RISKY, iterationsOfRollouts), initialMoney));
 		}
 		for (int i = 0; i < improvedHandStrengthPlayersModerate; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new ImprovedHandStrengthStrategy(preFlops,AGGRESSIVITY.MODERATE, iterationsOfRollouts), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new ImprovedHandStrengthStrategy(preFlops, AGGRESSIVITY.MODERATE, iterationsOfRollouts), initialMoney));
 		}
 		for (int i = 0; i < improvedHandStrengthPlayersConservative; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new ImprovedHandStrengthStrategy(preFlops,AGGRESSIVITY.CONSERVATIVE, iterationsOfRollouts), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new ImprovedHandStrengthStrategy(preFlops, AGGRESSIVITY.CONSERVATIVE, iterationsOfRollouts), initialMoney));
+		}
+		for (int i = 0; i < modellingPlayersConservativeRisky; i++) {
+			g.addPlayer(new ComputerPlayer(g.getState(), new OpponentModellingStrategy(preFlops, AGGRESSIVITY.RISKY), initialMoney));
+		}
+		for (int i = 0; i < modellingPlayersConservativeModerate; i++) {
+			g.addPlayer(new ComputerPlayer(g.getState(), new OpponentModellingStrategy(preFlops, AGGRESSIVITY.MODERATE), initialMoney));
+		}
+		for (int i = 0; i < modellingPlayersConservativeConservative; i++) {
+			g.addPlayer(new ComputerPlayer(g.getState(), new OpponentModellingStrategy(preFlops, AGGRESSIVITY.CONSERVATIVE), initialMoney));
 		}
 		
 		// play

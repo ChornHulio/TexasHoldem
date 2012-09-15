@@ -2,11 +2,8 @@ package player;
 
 import java.util.ArrayList;
 
-import player.PlayerAction.ACTION;
-
 import core.Card;
 import core.State;
-import core.State.STAGE;
 
 public class ComputerPlayer implements IPlayer {
 

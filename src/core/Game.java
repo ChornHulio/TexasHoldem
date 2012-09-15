@@ -151,8 +151,8 @@ public class Game {
 						return;
 					}
 				} else {
-					PlayerAction action = getPlayer(currentPlayer).makeBet(
-							true);
+					PlayerAction action = getPlayer(currentPlayer)
+							.makeBet(true);
 					Logger.logDebug("\t\tPlayer: "
 							+ (currentPlayer)
 							% playerList.size()
@@ -190,9 +190,7 @@ public class Game {
 						+ (currentPlayer)
 						% playerList.size()
 						+ " | "
-						+ " | "
-						+ playerList.get(
-								(currentPlayer) % playerList.size())
+						+ playerList.get((currentPlayer) % playerList.size())
 								.printLastAction());
 				if (action.action == ACTION.CALL) {
 					state.raisePot(action.toPay);
@@ -251,9 +249,10 @@ public class Game {
 	public void printCredits() {
 		Logger.logDebug("\n=== Player Credits ====");
 		for (int i = 0; i < playerList.size(); i++) {
-			Logger.logInfo("Player " + i + " ("
-					+ playerList.get(i).printStrategy() + ") : "
-					+ playerList.get(i).getMoney());
+			String money = "            " + playerList.get(i).getMoney();
+			money = money.substring(money.length() - 12);
+			Logger.logInfo("Player " + i + " : " + money
+					+ " (" + playerList.get(i).printStrategy() + ")");
 		}
 
 	}

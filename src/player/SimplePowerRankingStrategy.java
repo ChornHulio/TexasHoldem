@@ -32,7 +32,7 @@ public class SimplePowerRankingStrategy implements IStrategy{
 			}
 		}
 
-		thresholds[AGGRESSIVITY.CONSERVATIVE.ordinal()][callIndex].add(3).add(-1); // calls if >= two pairs
+		thresholds[AGGRESSIVITY.CONSERVATIVE.ordinal()][callIndex].add(3).add(-1); // calls if >= two pairs // TODO: adjust comments
 		thresholds[AGGRESSIVITY.CONSERVATIVE.ordinal()][raiseIndex].add(4).add(-1);  // raises >= three of a kind
 
 		thresholds[AGGRESSIVITY.MODERATE.ordinal()][callIndex].add(2).add(-1); // calls if >= pairs

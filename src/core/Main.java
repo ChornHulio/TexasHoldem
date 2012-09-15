@@ -14,15 +14,15 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		
-		Logger.DEBUG = true;
+		Logger.DEBUG = false;
 		
 		int bettingRounds = 3;
 		int bigBlindSize = 2;
-		int hands = 10;
+		int hands = 10000;
 		int initialMoney = 0;
 		int iterationsOfRollouts = 20; // for ImprovedHandStrenghStrategy
 		
-		int randomPlayers = 0;
+		int randomPlayers = 2;
 		int simplePowerRankingPlayersRisky = 2;
 		int simplePowerRankingPlayersModerate = 0;
 		int simplePowerRankingPlayersConservative = 2;

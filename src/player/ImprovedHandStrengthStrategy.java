@@ -37,8 +37,7 @@ public class ImprovedHandStrengthStrategy implements IStrategy{
 		lastAction.oldStake = player.getCurrentBet();
 		
 		// minimum raise
-		int payToCall = state.getBiggestRaise() - player.getCurrentBet();
-		
+		int payToCall = state.getBiggestRaise() - player.getCurrentBet();		
 		double handStrengh = 0;
 		
 		if (state.getStage() == STAGE.PREFLOP) { // Preflop: look at preflop rollout
@@ -52,14 +51,15 @@ public class ImprovedHandStrengthStrategy implements IStrategy{
 		}
 		
 		lastPotOdd = (double) payToCall / (payToCall + state.getPot());
+		int minimumRaise = Math.max(state.getBiggestRaise(),state.getBigBlindSize());
 		if(willingToPay < payToCall * lastPotOdd) {
 			lastAction.action = ACTION.FOLD;
-		} else if(Math.max(willingToPay,state.getBigBlindSize()) < payToCall * (1 / (1 + state.getNumberOfRaises()))) {
+		} else if(Math.max(willingToPay,minimumRaise) < payToCall * (1 / (1 + state.getNumberOfRaises()))) {
 			lastAction.action = ACTION.CALL;
 			lastAction.toPay = state.getBiggestRaise() - player.getCurrentBet();
 		} else {
 			lastAction.action = ACTION.RAISE;
-			lastAction.toPay = Math.max(willingToPay,state.getBigBlindSize());
+			lastAction.toPay = Math.max(willingToPay,minimumRaise);
 		}
 		lastHandStrength = handStrengh;
 		return lastAction;
@@ -67,11 +67,15 @@ public class ImprovedHandStrengthStrategy implements IStrategy{
 
 	@Override
 	public String printLastAction() {
-		return "strength: " + lastHandStrength + " | potOdd: " + lastPotOdd + " | " + lastAction.toString();
+		return "strength: "
+				+ Double.toString(lastHandStrength).concat("00000")
+						.substring(0, 5) + " | potOdd: "
+				+ Double.toString(lastPotOdd).concat("00000").substring(0, 5)
+				+ " | " + lastAction.toString();
 	}
 
 	@Override
 	public String printStrategy() {
-		return "ImprovedHandStrengh | " + aggressivity;
+		return "ImprovedHandStrength | " + aggressivity;
 	}
 }

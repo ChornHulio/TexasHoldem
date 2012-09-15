@@ -9,58 +9,64 @@ import rollout.Rollout;
 import core.State;
 import core.State.STAGE;
 
+public class HandStrengthStrategy implements IStrategy {
 
-public class HandStrengthStrategy implements IStrategy{
-	
 	ArrayList<PreFlop> preFlop;
 	double lambda = 6.0; // multiplier for e function
 	AGGRESSIVITY aggressivity = AGGRESSIVITY.MODERATE;
 	PlayerAction lastAction;
 	double lastHandStrength;
 	double lastPotOdd;
-	
-	public HandStrengthStrategy(ArrayList<PreFlop> preFlops, AGGRESSIVITY aggressivity) {
+
+	public HandStrengthStrategy(ArrayList<PreFlop> preFlops,
+			AGGRESSIVITY aggressivity) {
 		this.preFlop = preFlops;
 		this.aggressivity = aggressivity;
 	}
 
 	/**
 	 * Choose action
+	 * 
 	 * @return chosen action (FOLD, CALL, RAISE)
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Override
-	public PlayerAction chooseAction(State state, IPlayer player) throws Exception {
+	public PlayerAction chooseAction(State state, IPlayer player)
+			throws Exception {
 		lastAction = new PlayerAction();
 		lastAction.oldStake = player.getCurrentBet();
-		
+
 		// minimum raise
 		int payToCall = state.getBiggestRaise() - player.getCurrentBet();
-		if(payToCall < 0) {// TODO delete
-			System.out.println("----"); 
-		}
-		
 		double handStrengh = 0;
-		
-		if (state.getStage() == STAGE.PREFLOP) { // Preflop: look at preflop rollout
-			handStrengh = preFlop.get(state.getPlayersNotFolded() - 2).getStrength(player.getHoleCards());
+
+		if (state.getStage() == STAGE.PREFLOP) { // Preflop: look at preflop
+													// rollout
+			handStrengh = preFlop.get(state.getPlayersNotFolded() - 2)
+					.getStrength(player.getHoleCards());
 		} else {
-			handStrengh = new Rollout().simulateHandWithSharedCards(player.getHoleCards(), state.getSharedCards(), state.getPlayersNotFolded());
+			handStrengh = new Rollout().simulateHandWithSharedCards(
+					player.getHoleCards(), state.getSharedCards(),
+					state.getPlayersNotFolded());
 		}
-		int willingToPay = (int) Math.exp((aggressivity.ordinal() + lambda) * handStrengh);
+		int willingToPay = (int) Math.exp((aggressivity.ordinal() + lambda)
+				* handStrengh);
 		if (willingToPay > Integer.MAX_VALUE || willingToPay < 0) {
 			willingToPay = Integer.MAX_VALUE;
 		}
-		
+
 		lastPotOdd = (double) payToCall / (payToCall + state.getPot());
-		if(willingToPay < payToCall * lastPotOdd) {
+		int minimumRaise = Math.max(state.getBiggestRaise(),
+				state.getBigBlindSize());
+		if (willingToPay < payToCall * lastPotOdd) {
 			lastAction.action = ACTION.FOLD;
-		} else if(Math.max(willingToPay,state.getBigBlindSize()) < payToCall * (1 / (1 + state.getNumberOfRaises()))) {
+		} else if (Math.max(willingToPay, minimumRaise) < payToCall
+				* (1 / (1 + state.getNumberOfRaises()))) {
 			lastAction.action = ACTION.CALL;
 			lastAction.toPay = state.getBiggestRaise() - player.getCurrentBet();
 		} else {
 			lastAction.action = ACTION.RAISE;
-			lastAction.toPay = Math.max(willingToPay,state.getBigBlindSize());
+			lastAction.toPay = Math.max(willingToPay, minimumRaise);
 		}
 		lastHandStrength = handStrengh;
 		return lastAction;
@@ -68,11 +74,15 @@ public class HandStrengthStrategy implements IStrategy{
 
 	@Override
 	public String printLastAction() {
-		return "strength: " + lastHandStrength + " | potOdd: " + lastPotOdd + " | " + lastAction.toString();
+		return "strength: "
+				+ Double.toString(lastHandStrength).concat("00000")
+						.substring(0, 5) + " | potOdd: "
+				+ Double.toString(lastPotOdd).concat("00000").substring(0, 5)
+				+ " | " + lastAction.toString();
 	}
 
 	@Override
 	public String printStrategy() {
-		return "HandStrengh | " + aggressivity;
+		return "HandStrength | " + aggressivity;
 	}
 }

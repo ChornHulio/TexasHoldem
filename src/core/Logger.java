@@ -4,7 +4,7 @@ public class Logger {
 
 	public static void logDebug(String message) {
 		if(Main.DEBUG) {
-			System.out.println(message);
+//			System.out.println(message);
 		}
 	}
 	

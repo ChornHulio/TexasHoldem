@@ -153,7 +153,7 @@ public class Game {
 					PlayerAction action = getPlayer(currentPlayer++).makeBet(
 							true);
 					Logger.logDebug("\t\tPlayer: " + (currentPlayer - 1)
-							% playerList.size() + " | " + action.toString());
+							% playerList.size() + " | " + playerList.get((currentPlayer - 1)% playerList.size()).printLastAction());
 					if (action.action == ACTION.RAISE) {
 						playerDecrement = playerList.size() - 1;
 					}
@@ -180,7 +180,7 @@ public class Game {
 																				// NOT
 																				// allowed
 				Logger.logDebug("\t\tPlayer: " + (currentPlayer)
-						% playerList.size() + " | " + " | " + action.toString());
+						% playerList.size() + " | " + " | " + playerList.get((currentPlayer - 1)% playerList.size()).printLastAction());
 				if (action.action == ACTION.CALL) {
 					state.raisePot(action.toPay);
 				}

@@ -5,22 +5,26 @@ public class Card implements Comparable<Card> {
 	public enum SIGN {
 		HEARTS {
 			public String toString() {
-				return "\u2764";
+				return "HEARTS";
+//				return "\u276a4";
 			}
 		},
 		DIAMONDS{
 			public String toString() {
-				return "\u2666";
+				return "DIAMONDS";
+//				return "\u2666";
 			}
 		},
 		SPADES{
 			public String toString() {
-				return "\u2660";
+				return "SPADES";
+//				return "\u2660";
 			}
 		},
 		CLUBS{
 			public String toString() {
-				return "\u2663";
+				return "CLUBS";
+//				return "\u2663";
 			}
 		};
 	}

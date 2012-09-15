@@ -2,6 +2,8 @@ package player;
 
 import java.util.ArrayList;
 
+import player.PlayerAction.ACTION;
+
 import core.Card;
 import core.State;
 
@@ -101,5 +103,10 @@ public class ComputerPlayer implements IPlayer {
 	@Override
 	public int getCurrentBet() {
 		return currentBet;
+	}
+
+	@Override
+	public String printLastAction() {
+		return strategy.printLastAction();
 	}
 }

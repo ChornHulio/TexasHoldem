@@ -16,7 +16,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		int bettingRounds = 3;
 		int bigBlindSize = 2;
-		int hands = 100;
+		int hands = 10000;
 		int initialMoney = 0;
 		
 		int randomPlayers = 2;

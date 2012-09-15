@@ -17,6 +17,8 @@ public class HandStrengthStrategy implements IStrategy{
 	double callMax = 1.2;
 	double lambda = 10.0; // multiplier for e function
 	int iterationsOfRollout = 1000;
+	PlayerAction lastAction;
+	double lastHandStrength;
 	
 	public HandStrengthStrategy(ArrayList<PreFlop> preFlops) {
 		this.preFlop = preFlops;
@@ -29,8 +31,8 @@ public class HandStrengthStrategy implements IStrategy{
 	 */
 	@Override
 	public PlayerAction chooseAction(State state, IPlayer player) throws Exception {
-		PlayerAction action = new PlayerAction();
-		action.oldStake = player.getCurrentBet();
+		lastAction = new PlayerAction();
+		lastAction.oldStake = player.getCurrentBet();
 		
 		// minimum raise
 		int payToCall = state.getBiggestRaise() - player.getCurrentBet();
@@ -43,15 +45,28 @@ public class HandStrengthStrategy implements IStrategy{
 			handStrengh = new Rollout().simulateHandWithSharedCards(player.getHoleCards(), state.getSharedCards(), state.getPlayersNotFolded());
 		}
 		int willingToPay = (int) Math.exp(lambda * handStrengh);
-		if(willingToPay < payToCall * callMin) {
-			action.action = ACTION.FOLD;
-		} else if(Math.max(willingToPay,state.getBigBlindSize()) < payToCall * callMax) {
-			action.action = ACTION.CALL;
-			action.toPay = state.getBiggestRaise() - player.getCurrentBet();
-		} else {
-			action.action = ACTION.RAISE;
-			action.toPay = Math.max(willingToPay,state.getBigBlindSize());
+		//TODO: max_value irgendwie raus
+		if (willingToPay > Integer.MAX_VALUE) {
+			willingToPay = Integer.MAX_VALUE;
 		}
-		return action;
+		if(willingToPay < payToCall * callMin) {
+			lastAction.action = ACTION.FOLD;
+		} else if(Math.max(willingToPay,state.getBigBlindSize()) < payToCall * callMax) {
+			lastAction.action = ACTION.CALL;
+			lastAction.toPay = state.getBiggestRaise() - player.getCurrentBet();
+		} else {
+			lastAction.action = ACTION.RAISE;
+			lastAction.toPay = Math.max(willingToPay,state.getBigBlindSize());
+		}
+		lastHandStrength = handStrengh;
+		return lastAction;
+	}
+
+	@Override
+	public String printLastAction() {
+		if(lastAction.action == ACTION.FOLD) {
+			return "" + lastAction.toString();
+		}
+		return "strength: " + lastHandStrength + " | " + lastAction.toString();
 	}
 }

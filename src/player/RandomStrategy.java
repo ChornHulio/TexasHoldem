@@ -10,6 +10,7 @@ import core.State;
 public class RandomStrategy implements IStrategy{
 	
 	Random generator = new Random();
+	PlayerAction lastAction;
 
 	/**
 	 * Choose random action
@@ -17,21 +18,21 @@ public class RandomStrategy implements IStrategy{
 	 */
 	@Override
 	public PlayerAction chooseAction(State state, IPlayer player) {
-		PlayerAction action = new PlayerAction();
-		action.oldStake = player.getCurrentBet();
+		lastAction = new PlayerAction();
+		lastAction.oldStake = player.getCurrentBet();
 		PlayerAction.ACTION[] actionArray = PlayerAction.ACTION.values();
-		action.action = actionArray[generator.nextInt(actionArray.length)];
+		lastAction.action = actionArray[generator.nextInt(actionArray.length)];
 		
-		if(state.getBiggestRaise() - player.getCurrentBet() <= 0 && action.action == ACTION.FOLD) {
-			action.action = ACTION.CALL;
+		if(state.getBiggestRaise() - player.getCurrentBet() <= 0 && lastAction.action == ACTION.FOLD) {
+			lastAction.action = ACTION.CALL;
 		}
 		
-		if(action.action == ACTION.CALL) {
-			action.toPay = calculateCall(state, player.getCurrentBet());
-		} else if(action.action == ACTION.RAISE) {
-			action.toPay = calculateRaise(state, player.getCurrentBet());
+		if(lastAction.action == ACTION.CALL) {
+			lastAction.toPay = calculateCall(state, player.getCurrentBet());
+		} else if(lastAction.action == ACTION.RAISE) {
+			lastAction.toPay = calculateRaise(state, player.getCurrentBet());
 		}
-		return action;
+		return lastAction;
 	}
 	
 	public int calculateCall(State state, int currentBet) {
@@ -42,5 +43,10 @@ public class RandomStrategy implements IStrategy{
 		int raise = generator.nextInt(10 * state.getBigBlindSize()) + 1;
 		int toPay = raise + state.getBiggestRaise() - currentBet;
 		return toPay;
+	}
+
+	@Override
+	public String printLastAction() {
+		return "" + lastAction.toString();
 	}
 }

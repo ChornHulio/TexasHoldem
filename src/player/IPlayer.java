@@ -17,4 +17,5 @@ public interface IPlayer {
 	public boolean hasFolded();
 	public int getMoney();
 	public int getCurrentBet();
+	public String printLastAction();
 }

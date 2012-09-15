@@ -114,7 +114,7 @@ public class Rollout {
 				wins++;
 			}
 		}
-		return Math.pow(wins + 0.5 * ties / ( wins + ties + losses), players);
+		return Math.pow((wins + 0.5 * ties) / ( wins + ties + losses), players);
 	}
 	
 	

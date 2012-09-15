@@ -6,4 +6,5 @@ public interface IStrategy {
 
 	PlayerAction chooseAction(State state, IPlayer player)
 			throws Exception;
+	String printLastAction();
 }

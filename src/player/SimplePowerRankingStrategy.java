@@ -23,6 +23,7 @@ public class SimplePowerRankingStrategy implements IStrategy{
 	Random generator = new Random();
 	AGGRESSIVITY aggressivity = AGGRESSIVITY.MODERATE;
 	CardPower[][] thresholds;
+	PlayerAction lastAction;
 	
 	final int callIndex = 0;
 	final int raiseIndex = 1;
@@ -37,6 +38,7 @@ public class SimplePowerRankingStrategy implements IStrategy{
 			}
 		}
 
+		// TODO: tresholds ändern, damit die schlechten spieler besser sind, als die random
 		thresholds[AGGRESSIVITY.CONSERVATIVE.ordinal()][callIndex].add(2).add(-1); // calls if >= two pairs
 		thresholds[AGGRESSIVITY.CONSERVATIVE.ordinal()][raiseIndex].add(3).add(-1);  // raises >= three of a kind
 
@@ -54,21 +56,21 @@ public class SimplePowerRankingStrategy implements IStrategy{
 	 */
 	@Override
 	public PlayerAction chooseAction(State state, IPlayer player) throws Exception {
-		PlayerAction action = new PlayerAction();
-		action.oldStake = player.getCurrentBet();
+		lastAction = new PlayerAction();
+		lastAction.oldStake = player.getCurrentBet();
 		if (state.getStage() == STAGE.PREFLOP) { // Preflop: random choise
 			PlayerAction.ACTION[] actionArray = PlayerAction.ACTION.values();
-			action.action = actionArray[generator.nextInt(actionArray.length)];	
+			lastAction.action = actionArray[generator.nextInt(actionArray.length)];	
 			
 			// is fold necassary
-			if(state.getBiggestRaise() - player.getCurrentBet() <= 0 && action.action == ACTION.FOLD) {
-				action.action = ACTION.CALL;
+			if(state.getBiggestRaise() - player.getCurrentBet() <= 0 && lastAction.action == ACTION.FOLD) {
+				lastAction.action = ACTION.CALL;
 			}
 			
-			if(action.action == ACTION.CALL) {
-				action.toPay = calculateCall(state, player.getCurrentBet());
-			} else if(action.action == ACTION.RAISE) {
-				action.toPay = calculateRandomRaise(state, player.getCurrentBet());
+			if(lastAction.action == ACTION.CALL) {
+				lastAction.toPay = calculateCall(state, player.getCurrentBet());
+			} else if(lastAction.action == ACTION.RAISE) {
+				lastAction.toPay = calculateRandomRaise(state, player.getCurrentBet());
 			}
 		} else {
 			ArrayList<Card> cards = new ArrayList<Card>();
@@ -76,26 +78,26 @@ public class SimplePowerRankingStrategy implements IStrategy{
 			cards.addAll(state.getSharedCards());
 			CardPower cardPower = new PowerRanking().calcCardPower(cards);
 			if(cardPower.compareTo(thresholds[aggressivity.ordinal()][raiseIndex]) > 0) {
-				action.action = ACTION.RAISE;
+				lastAction.action = ACTION.RAISE;
 			} else if(cardPower.compareTo(thresholds[aggressivity.ordinal()][callIndex]) > 0) {
-				action.action = ACTION.CALL;
+				lastAction.action = ACTION.CALL;
 			} else {
-				action.action = ACTION.FOLD;
+				lastAction.action = ACTION.FOLD;
 			}
 			
 			// is fold necassary
-			if(state.getBiggestRaise() - player.getCurrentBet() <= 0 && action.action == ACTION.FOLD) {
-				action.action = ACTION.CALL;
+			if(state.getBiggestRaise() - player.getCurrentBet() <= 0 && lastAction.action == ACTION.FOLD) {
+				lastAction.action = ACTION.CALL;
 			}
 			
-			if(action.action == ACTION.CALL) {
-				action.toPay = calculateCall(state, player.getCurrentBet());
-			} else if(action.action == ACTION.RAISE) {
+			if(lastAction.action == ACTION.CALL) {
+				lastAction.toPay = calculateCall(state, player.getCurrentBet());
+			} else if(lastAction.action == ACTION.RAISE) {
 				int raise = (int) (Math.exp(cardPower.getAt(0))) * (aggressivity.ordinal() + 1) + state.getBigBlindSize();
-				action.toPay = raise + state.getBiggestRaise() - player.getCurrentBet();
+				lastAction.toPay = raise + state.getBiggestRaise() - player.getCurrentBet();
 			}
 		}
-		return action;
+		return lastAction;
 	}
 	
 	public int calculateCall(State state, int currentBet) {
@@ -106,5 +108,10 @@ public class SimplePowerRankingStrategy implements IStrategy{
 		int raise = generator.nextInt(10 * state.getBigBlindSize()) + 1;
 		int toPay = raise + state.getBiggestRaise() - currentBet;
 		return toPay;
+	}
+
+	@Override
+	public String printLastAction() {
+		return "" + lastAction.toString();
 	}
 }

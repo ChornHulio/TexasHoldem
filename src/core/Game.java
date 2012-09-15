@@ -192,7 +192,7 @@ public class Game {
 						+ " | "
 						+ " | "
 						+ playerList.get(
-								(currentPlayer - 1) % playerList.size())
+								(currentPlayer) % playerList.size())
 								.printLastAction());
 				if (action.action == ACTION.CALL) {
 					state.raisePot(action.toPay);

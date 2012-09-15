@@ -65,17 +65,12 @@ public class ComputerPlayer implements IPlayer {
 	@Override
 	public PlayerAction makeBet(boolean raiseAllowed) throws Exception {
 		PlayerAction action = new PlayerAction();
+		action.oldStake = currentBet;
 		if (folded) {
 			action.action = PlayerAction.ACTION.FOLD;
 			return action;
 		}
 		action = strategy.chooseAction(state, this);
-		if (action.action == ACTION.FOLD) {
-			if (state.getStage().ordinal() >= STAGE.RIVER.ordinal()) {
-				System.out.println("wtf!");
-				
-			}
-		}
 		if (action.action == PlayerAction.ACTION.CALL
 				|| (action.action == PlayerAction.ACTION.RAISE && !raiseAllowed)) {
 			action.action = PlayerAction.ACTION.CALL;

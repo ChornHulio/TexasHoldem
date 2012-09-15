@@ -36,6 +36,9 @@ public class HandStrengthStrategy implements IStrategy{
 		
 		// minimum raise
 		int payToCall = state.getBiggestRaise() - player.getCurrentBet();
+		if(payToCall < 0) {// TODO delete
+			System.out.println("----"); 
+		}
 		
 		double handStrengh = 0;
 		

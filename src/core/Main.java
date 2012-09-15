@@ -23,20 +23,19 @@ public class Main {
 		int iterationsOfRollouts = 20; // for ImprovedHandStrenghStrategy
 		
 		int randomPlayers = 0;
-		int simplePowerRankingPlayersRisky = 1;
+		int simplePowerRankingPlayersRisky = 2;
 		int simplePowerRankingPlayersModerate = 0;
-		int simplePowerRankingPlayersConservative = 1;
-		int handStrengthPlayersRisky = 1;
+		int simplePowerRankingPlayersConservative = 2;
+		int handStrengthPlayersRisky = 2;
 		int handStrengthPlayersModerate = 0;
-		int handStrengthPlayersConservative = 1;
-		int improvedHandStrengthPlayersRisky = 1;
+		int handStrengthPlayersConservative = 2;
+		int improvedHandStrengthPlayersRisky = 0;
 		int improvedHandStrengthPlayersModerate = 0;
-		int improvedHandStrengthPlayersConservative = 1;
+		int improvedHandStrengthPlayersConservative = 0;
 		
-		int playersInTotal = 10;
 		String pathnameToRollout = "./rollouts";
 		ArrayList<PreFlop> preFlops = new ArrayList<PreFlop>();
-		for (int i = 2; i <= playersInTotal; i++) {
+		for (int i = 2; i <= 10; i++) {
 			preFlops.add(new PreFlop(i, pathnameToRollout));
 		}
 				

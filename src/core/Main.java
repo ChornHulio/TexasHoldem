@@ -9,14 +9,15 @@ import player.SimplePowerRankingStrategy;
 import player.SimplePowerRankingStrategy.AGGRESSIVITY;
 import rollout.PreFlop;
 
-public class Main {
-	
-	public static final boolean DEBUG = true;
+public class Main {	
 
 	public static void main(String[] args) throws Exception {
+		
+		Logger.DEBUG = true;
+		
 		int bettingRounds = 3;
 		int bigBlindSize = 2;
-		int hands = 10000;
+		int hands = 40;
 		int initialMoney = 0;
 		
 		int randomPlayers = 2;

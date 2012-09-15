@@ -1,10 +1,12 @@
 package core;
 
 public class Logger {
+	
+	public static boolean DEBUG = true;
 
 	public static void logDebug(String message) {
-		if(Main.DEBUG) {
-//			System.out.println(message);
+		if(DEBUG) {
+			System.out.println(message);
 		}
 	}
 	

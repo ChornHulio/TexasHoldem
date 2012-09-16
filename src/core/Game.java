@@ -8,6 +8,7 @@ import core.State.STAGE;
 import player.IPlayer;
 import player.PlayerAction;
 import player.PlayerAction.ACTION;
+import rollout.PreFlop;
 
 public class Game {
 
@@ -16,10 +17,15 @@ public class Game {
 	private ArrayList<IPlayer> playerList = new ArrayList<IPlayer>();
 	private Deck deck;
 	private int numberOfHand;
+	ArrayList<PreFlop> preFlops; // for opponent model
+	private OpponentLogger opponentLogger;
+	private ArrayList<OpponentModel> opponentModels;
 
-	public Game(int bettingRounds, int bigBlindSize) throws Exception {
+	public Game(int bettingRounds, int bigBlindSize, ArrayList<PreFlop> preFlops, ArrayList<OpponentModel> opponentModels) throws Exception {
 		this.bettingRounds = bettingRounds;
 		state = new State(bigBlindSize);
+		this.preFlops = preFlops;
+		this.opponentModels = opponentModels;
 	}
 
 	public void playHand(int numberOfHand) throws Exception {
@@ -47,7 +53,7 @@ public class Game {
 		if (state.getPlayersNotFolded() > 1) {
 			state.setStage(STAGE.SHOWDOWN);
 			winners = findWinner();
-		} else {
+		} else { // only one player left
 			winners = new ArrayList<Integer>();
 			for (int i = 0; i < playerList.size(); i++) {
 				if (!playerList.get(i).hasFolded()) {
@@ -58,73 +64,7 @@ public class Game {
 		}
 		sharePot(winners);
 	}
-
-	private void sharePot(ArrayList<Integer> winners) throws Exception {
-		if (state.getStage() == STAGE.SHOWDOWN) {
-			int splittedPot = state.getPot() / winners.size();
-			for (Integer winner : winners) {
-				playerList.get(winner).receiveMoney(splittedPot);
-				ArrayList<Card> winnerCards = new ArrayList<Card>();
-				winnerCards.addAll(playerList.get(winner).getHoleCards());
-				winnerCards.addAll(state.getSharedCards());
-				Logger.logDebug("\t\t(Showdown) Winner: "
-						+ winner
-						+ " with cards power: "
-						+ new PowerRanking().calcCardPower(winnerCards)
-								.toString() + " | win: " + splittedPot);
-			}
-		} else {
-			playerList.get(winners.get(0)).receiveMoney(state.getPot());
-			Logger.logDebug("\t\tWinner: " + winners.get(0) + " | win: "
-					+ state.getPot());
-		}
-
-	}
-
-	private ArrayList<Integer> findWinner() throws Exception {
-		PowerRanking powerRanking = new PowerRanking();
-		ArrayList<CardPower> cardPowers = new ArrayList<CardPower>();
-		for (int i = 0; i < playerList.size(); i++) {
-			if (!playerList.get(i).hasFolded()) {
-				ArrayList<Card> playerCards = new ArrayList<Card>();
-				playerCards.addAll(playerList.get(i).getHoleCards());
-				playerCards.addAll(state.getSharedCards());
-				cardPowers.add(powerRanking.calcCardPower(playerCards));
-			} else {
-				cardPowers.add(new CardPower().add(-1));
-			}
-		}
-
-		ArrayList<Integer> winners = new ArrayList<Integer>();
-		CardPower maxPower = Collections.max(cardPowers);
-		for (int i = 0; i < cardPowers.size(); i++) {
-			if (cardPowers.get(i).compareTo(maxPower) == 0) {
-				winners.add(i);
-			}
-		}
-		return winners;
-	}
-
-	public void anounceNewHand() throws Exception {
-		state.setPlayersNotFolded(playerList.size());
-		for (IPlayer player : playerList) {
-			player.newHand();
-		}
-		state.initNewHand();
-		incrementDealerPosition();
-		setBlinds();
-		Logger.logDebug("Hand: " + numberOfHand + " | " + state.getHandString());
-	}
-
-	public void anounceNewRound() {
-		for (IPlayer player : playerList) {
-			player.newRound();
-		}
-		state.setBiggestRaise(0);
-		int nextState = state.getStage().ordinal() + 1;
-		state.setStage(State.STAGE.values()[nextState]);
-	}
-
+	
 	private void playRound() throws Exception {
 		Logger.logDebug(state.getRoundString());
 		for (int i = 0; i < playerList.size(); i++) {
@@ -160,6 +100,7 @@ public class Game {
 							+ playerList.get(
 									(currentPlayer) % playerList.size())
 									.printLastAction());
+					opponentLogger.addEntry(currentPlayer % playerList.size(), state, action);
 					if (action.action == ACTION.CALL
 							|| action.action == ACTION.RAISE) {
 						state.raisePot(action.toPay);
@@ -192,6 +133,7 @@ public class Game {
 						+ " | "
 						+ playerList.get((currentPlayer) % playerList.size())
 								.printLastAction());
+				opponentLogger.addEntry(currentPlayer % playerList.size(), state, action);
 				if (action.action == ACTION.CALL) {
 					state.raisePot(action.toPay);
 				} else { // fold
@@ -203,6 +145,78 @@ public class Game {
 			}
 			currentPlayer++;
 		}
+	}
+
+	private void sharePot(ArrayList<Integer> winners) throws Exception {
+		if (state.getStage() == STAGE.SHOWDOWN) {
+			int splittedPot = state.getPot() / winners.size();
+			for (Integer winner : winners) {
+				playerList.get(winner).receiveMoney(splittedPot);
+				ArrayList<Card> winnerCards = new ArrayList<Card>();
+				winnerCards.addAll(playerList.get(winner).getHoleCards());
+				winnerCards.addAll(state.getSharedCards());
+				Logger.logDebug("\t\t(Showdown) Winner: "
+						+ winner
+						+ " with cards power: "
+						+ new PowerRanking().calcCardPower(winnerCards)
+								.toString() + " | win: " + splittedPot);
+			}
+		} else {
+			playerList.get(winners.get(0)).receiveMoney(state.getPot());
+			Logger.logDebug("\t\tWinner: " + winners.get(0) + " | win: "
+					+ state.getPot());
+		}
+
+	}
+
+	private ArrayList<Integer> findWinner() throws Exception {
+		PowerRanking powerRanking = new PowerRanking();
+		ArrayList<CardPower> cardPowers = new ArrayList<CardPower>();
+		for (int i = 0; i < playerList.size(); i++) {
+			if (!playerList.get(i).hasFolded()) {
+				ArrayList<Card> playerCards = new ArrayList<Card>();
+				playerCards.addAll(playerList.get(i).getHoleCards());
+				playerCards.addAll(state.getSharedCards());
+				cardPowers.add(powerRanking.calcCardPower(playerCards));
+				// for opponent model
+				opponentLogger.showdown(i, playerList.get(i).getHoleCards(), state.getSharedCards());
+			} else {
+				cardPowers.add(new CardPower().add(-1));
+			}
+		}
+
+		ArrayList<Integer> winners = new ArrayList<Integer>();
+		CardPower maxPower = Collections.max(cardPowers);
+		for (int i = 0; i < cardPowers.size(); i++) {
+			if (cardPowers.get(i).compareTo(maxPower) == 0) {
+				winners.add(i);
+			}
+		}
+		return winners;
+	}
+
+	public void anounceNewHand() throws Exception {
+		state.setPlayersNotFolded(playerList.size());
+		for (IPlayer player : playerList) {
+			player.newHand();
+		}
+		state.initNewHand();
+		incrementDealerPosition();
+		setBlinds();
+		opponentLogger = new OpponentLogger(playerList.size(), preFlops, opponentModels);
+		for (OpponentModel opponentModel : opponentModels) {
+			opponentModel.setLogger(opponentLogger);
+		}
+		Logger.logDebug("Hand: " + numberOfHand + " | " + state.getHandString());
+	}
+
+	public void anounceNewRound() {
+		for (IPlayer player : playerList) {
+			player.newRound();
+		}
+		state.setBiggestRaise(0);
+		int nextState = state.getStage().ordinal() + 1;
+		state.setStage(State.STAGE.values()[nextState]);
 	}
 
 	private void dealHoleCards() throws Exception {
@@ -255,5 +269,9 @@ public class Game {
 					+ " (" + playerList.get(i).printStrategy() + ")");
 		}
 
+	}
+
+	public int getNumberOfPlayers() {
+		return playerList.size();
 	}
 }

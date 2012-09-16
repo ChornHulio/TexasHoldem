@@ -67,21 +67,22 @@ public class ComputerPlayer implements IPlayer {
 			action.action = PlayerAction.ACTION.FOLD;
 			return action;
 		}
+		
 		action = strategy.chooseAction(state, this);
 		if (action.action == PlayerAction.ACTION.CALL
 				|| (action.action == PlayerAction.ACTION.RAISE && !raiseAllowed)) {
 			action.action = PlayerAction.ACTION.CALL;
 			action.toPay = state.getBiggestRaise() - currentBet;
 			makeRaise(action.toPay);
-			return action;
 		} else if (action.action == PlayerAction.ACTION.RAISE) {
 			makeRaise(action.toPay);
-			return action;
 		} else { // Fold
 			folded = true;
 			action.action = PlayerAction.ACTION.FOLD;
-			return action;
 		}
+		double payToCall = state.getBiggestRaise() - currentBet;
+		action.potOdd = payToCall / (payToCall + state.getPot());
+		return action;
 	}
 	
 	@Override

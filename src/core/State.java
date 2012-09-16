@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class State {
 	
-	public enum STAGE{
+	public enum STAGE{ // betting round
 		PREFLOP,
 		FLOP,
 		TURN,

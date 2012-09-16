@@ -117,10 +117,4 @@ public class Card implements Comparable<Card> {
 	public String toString() {
 		return "(" + value + " " + sign + ")";
 	}
-
-	public static void main(String[] args) {
-		Card c1 = new Card(SIGN.DIAMONDS, VALUE.EIGHT);
-		Card c2 = new Card(SIGN.HEARTS, VALUE.ACE);
-		System.out.println(c2.compareTo(c2));
-	}
 }

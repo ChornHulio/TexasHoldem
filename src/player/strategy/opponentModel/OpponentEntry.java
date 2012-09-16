@@ -1,7 +1,7 @@
-package core;
+package player.strategy.opponentModel;
 
-import core.State.STAGE;
 import player.PlayerAction;
+import core.State.STAGE;
 
 public class OpponentEntry {
 
@@ -69,5 +69,10 @@ public class OpponentEntry {
 			return true; // equals
 		}
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return context.toString() + ", " + action.toString() + " : " + averageHandStrength + ", " + count;
 	}
 }

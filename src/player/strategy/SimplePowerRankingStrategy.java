@@ -1,15 +1,16 @@
-package player;
+package player.strategy;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+import player.IPlayer;
+import player.PlayerAction;
 import player.PlayerAction.ACTION;
-
-import core.Card;
-import core.CardPower;
 import core.PowerRanking;
 import core.State;
 import core.State.STAGE;
+import core.card.Card;
+import core.card.CardPower;
 
 
 public class SimplePowerRankingStrategy implements IStrategy{
@@ -18,11 +19,13 @@ public class SimplePowerRankingStrategy implements IStrategy{
 	AGGRESSIVITY aggressivity = AGGRESSIVITY.MODERATE;
 	CardPower[][] thresholds;
 	PlayerAction lastAction;
+	int playerID;
 	
 	final int callIndex = 0;
 	final int raiseIndex = 1;
 	
-	public SimplePowerRankingStrategy(AGGRESSIVITY aggressivity) {
+	public SimplePowerRankingStrategy(int index, AGGRESSIVITY aggressivity) {
+		playerID = index;
 		this.aggressivity = aggressivity;
 		thresholds = new CardPower[AGGRESSIVITY.values().length][];
 		for (int i = 0; i < thresholds.length; i++) {
@@ -86,7 +89,8 @@ public class SimplePowerRankingStrategy implements IStrategy{
 			if(lastAction.action == ACTION.CALL) {
 				lastAction.toPay = calculateCall(state, player.getCurrentBet());
 			} else if(lastAction.action == ACTION.RAISE) {
-				int raise = (int) (Math.exp(cardPower.getAt(0))) * (aggressivity.ordinal() + 1) + state.getBigBlindSize();
+//				int raise = (int) (Math.exp(cardPower.getAt(0))) * (aggressivity.ordinal() + 1) + state.getBigBlindSize();
+				int raise = (int) (Math.exp((cardPower.getAt(0) / 3) - 3) * 100.0 * (aggressivity.ordinal() + 1))+ state.getBigBlindSize();
 				lastAction.toPay = raise + state.getBiggestRaise() - player.getCurrentBet();
 			}
 		}
@@ -98,7 +102,7 @@ public class SimplePowerRankingStrategy implements IStrategy{
 	}
 
 	public int calculateRandomRaise(State state, int currentBet) {
-		int raise = generator.nextInt(10 * state.getBigBlindSize()) + 1;
+		int raise = generator.nextInt(3 * state.getBigBlindSize()) + 1;
 		int toPay = raise + state.getBiggestRaise() - currentBet;
 		return toPay;
 	}

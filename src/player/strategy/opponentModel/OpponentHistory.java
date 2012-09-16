@@ -1,4 +1,4 @@
-package core;
+package player.strategy.opponentModel;
 
 import java.util.ArrayList;
 
@@ -7,11 +7,15 @@ import player.PlayerAction;
 public class OpponentHistory {
 	
 	private int playerID;
-	
+
 	ArrayList<OpponentEntry> entries = new ArrayList<OpponentEntry>();
 
 	public OpponentHistory(int playerID) {
 		this.playerID = playerID;
+	}
+	
+	public int getPlayerID() {
+		return playerID;
 	}
 
 	public void addEntry(Context context, PlayerAction action) {

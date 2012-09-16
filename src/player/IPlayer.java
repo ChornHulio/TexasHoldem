@@ -2,7 +2,7 @@ package player;
 
 import java.util.ArrayList;
 
-import core.Card;
+import core.card.Card;
 
 
 public interface IPlayer {

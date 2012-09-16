@@ -3,12 +3,16 @@ package core;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import core.State.STAGE;
-
 import player.IPlayer;
 import player.PlayerAction;
 import player.PlayerAction.ACTION;
+import player.strategy.opponentModel.Logger;
+import player.strategy.opponentModel.OpponentLogger;
+import player.strategy.opponentModel.OpponentModel;
 import rollout.PreFlop;
+import core.State.STAGE;
+import core.card.Card;
+import core.card.CardPower;
 
 public class Game {
 
@@ -64,14 +68,12 @@ public class Game {
 		}
 		sharePot(winners);
 	}
-	
+
 	private void playRound() throws Exception {
 		Logger.logDebug(state.getRoundString());
 		for (int i = 0; i < playerList.size(); i++) {
 			if (!playerList.get(i).hasFolded()) {
-				Logger.logDebug("\tPlayer " + i + ": hole cards: "
-						+ playerList.get(i).getHoleCards().toString()
-						+ " | cash: " + playerList.get(i).getMoney());
+				Logger.logDebug("\tPlayer " + i + ": hole cards: " + playerList.get(i).getHoleCards().toString() + " | cash: " + playerList.get(i).getMoney());
 			}
 		}
 
@@ -80,7 +82,8 @@ public class Game {
 		// the first player to bet is the 3. after dealer
 		int currentPlayer = (state.getDealerPosition() + 3) % playerList.size();
 		for (int i = 0; i < bettingRounds; i++) {
-			for (IPlayer player : playerList) {
+			for (@SuppressWarnings("unused")
+			IPlayer player : playerList) {
 				if (((playerDecrement--)) <= 0) {
 					// in order to leave both loops:
 					i = bettingRounds;
@@ -91,18 +94,11 @@ public class Game {
 						return;
 					}
 				} else {
-					PlayerAction action = getPlayer(currentPlayer)
-							.makeBet(true);
-					Logger.logDebug("\t\tPlayer: "
-							+ (currentPlayer)
-							% playerList.size()
-							+ " | "
-							+ playerList.get(
-									(currentPlayer) % playerList.size())
-									.printLastAction());
+					PlayerAction action = getPlayer(currentPlayer).makeBet(true);
+					Logger.logDebug("\t\tPlayer: " + (currentPlayer) % playerList.size() + " | "
+							+ playerList.get((currentPlayer) % playerList.size()).printLastAction());
 					opponentLogger.addEntry(currentPlayer % playerList.size(), state, action);
-					if (action.action == ACTION.CALL
-							|| action.action == ACTION.RAISE) {
+					if (action.action == ACTION.CALL || action.action == ACTION.RAISE) {
 						state.raisePot(action.toPay);
 						state.setBiggestRaise(action.oldStake + action.toPay);
 						if (action.action == ACTION.RAISE) {
@@ -127,13 +123,8 @@ public class Game {
 				PlayerAction action = getPlayer(currentPlayer).makeBet(false); // raise
 																				// NOT
 																				// allowed
-				Logger.logDebug("\t\tPlayer: "
-						+ (currentPlayer)
-						% playerList.size()
-						+ " | "
-						+ playerList.get((currentPlayer) % playerList.size())
-								.printLastAction());
-				opponentLogger.addEntry(currentPlayer % playerList.size(), state, action);
+				Logger.logDebug("\t\tPlayer: " + (currentPlayer) % playerList.size() + " | "
+						+ playerList.get((currentPlayer) % playerList.size()).printLastAction());
 				if (action.action == ACTION.CALL) {
 					state.raisePot(action.toPay);
 				} else { // fold
@@ -155,16 +146,12 @@ public class Game {
 				ArrayList<Card> winnerCards = new ArrayList<Card>();
 				winnerCards.addAll(playerList.get(winner).getHoleCards());
 				winnerCards.addAll(state.getSharedCards());
-				Logger.logDebug("\t\t(Showdown) Winner: "
-						+ winner
-						+ " with cards power: "
-						+ new PowerRanking().calcCardPower(winnerCards)
-								.toString() + " | win: " + splittedPot);
+				Logger.logDebug("\t\t(Showdown) Winner: " + winner + " with cards power: " + new PowerRanking().calcCardPower(winnerCards).toString()
+						+ " | win: " + splittedPot);
 			}
 		} else {
 			playerList.get(winners.get(0)).receiveMoney(state.getPot());
-			Logger.logDebug("\t\tWinner: " + winners.get(0) + " | win: "
-					+ state.getPot());
+			Logger.logDebug("\t\tWinner: " + winners.get(0) + " | win: " + state.getPot());
 		}
 
 	}
@@ -217,6 +204,7 @@ public class Game {
 		state.setBiggestRaise(0);
 		int nextState = state.getStage().ordinal() + 1;
 		state.setStage(State.STAGE.values()[nextState]);
+		state.resetNumberOfRaisesPerRound();
 	}
 
 	private void dealHoleCards() throws Exception {
@@ -230,17 +218,14 @@ public class Game {
 			throw new Exception("PlayerList empty!");
 		}
 
-		int newDealerPosition = (state.getDealerPosition() + 1)
-				% playerList.size();
+		int newDealerPosition = (state.getDealerPosition() + 1) % playerList.size();
 		state.setDealerPosition(newDealerPosition);
 
 	}
 
 	private void setBlinds() {
-		getPlayer(state.getDealerPosition() + 1).setBlind(
-				state.getBigBlindSize() / 2);
-		getPlayer(state.getDealerPosition() + 2).setBlind(
-				state.getBigBlindSize());
+		getPlayer(state.getDealerPosition() + 1).setBlind(state.getBigBlindSize() / 2);
+		getPlayer(state.getDealerPosition() + 2).setBlind(state.getBigBlindSize());
 		state.raisePot((int) (state.getBigBlindSize() * 1.5));
 		state.setBiggestRaise(state.getBigBlindSize());
 	}
@@ -265,8 +250,7 @@ public class Game {
 		for (int i = 0; i < playerList.size(); i++) {
 			String money = "            " + playerList.get(i).getMoney();
 			money = money.substring(money.length() - 12);
-			Logger.logInfo("Player " + i + " : " + money
-					+ " (" + playerList.get(i).printStrategy() + ")");
+			Logger.logInfo("Player " + i + " : " + money + " (" + playerList.get(i).printStrategy() + ")");
 		}
 
 	}

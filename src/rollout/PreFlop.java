@@ -2,9 +2,9 @@ package rollout;
 
 import java.util.ArrayList;
 
-import core.Card;
-import core.Card.SIGN;
-import core.Card.VALUE;
+import core.card.Card;
+import core.card.Card.SIGN;
+import core.card.Card.VALUE;
 
 public class PreFlop {
 

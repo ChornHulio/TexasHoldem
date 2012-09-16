@@ -1,4 +1,4 @@
-package core;
+package player.strategy.opponentModel;
 
 import java.util.ArrayList;
 
@@ -16,12 +16,13 @@ public class OpponentModel {
 
 	public void addEntry(OpponentEntry entryArg, double handStrength) {
 		for (OpponentEntry entry : entries) {
-			if (!entry.equals(entryArg)) {
-				entries.add(new OpponentEntry(entryArg.getContext(), entryArg.getAction(), handStrength));
-			} else {
+			if (entry.equals(entryArg)) {
 				entry.update(handStrength);
+				return;
 			}
 		}
+
+		entries.add(new OpponentEntry(entryArg.getContext(), entryArg.getAction(), handStrength));
 	}
 
 	public void setLogger(OpponentLogger opponentLogger) {
@@ -41,6 +42,15 @@ public class OpponentModel {
 			}
 		}
 		return -1;
+	}
+	
+	@Override
+	public String toString() {
+		String out = "";
+		for (OpponentEntry entry : entries) {
+			out += "[ " + entry.toString() + " ]\n";
+		}
+		return out;
 	}
 
 }

@@ -1,4 +1,4 @@
-package core;
+package core.card;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +13,7 @@ public class CardGroup implements Comparable<CardGroup>{
 	}
 	
 	public void sort(){
-		Comparator comparator = Collections.reverseOrder();
+		Comparator<Card> comparator = Collections.reverseOrder();
 		Collections.sort(cards, comparator); // highest card first
 	}
 

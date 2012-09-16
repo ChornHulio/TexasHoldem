@@ -2,9 +2,12 @@ package rollout;
 
 import java.util.ArrayList;
 
-import core.*;
-import core.Card.SIGN;
-import core.Card.VALUE;
+import core.Deck;
+import core.PowerRanking;
+import core.card.Card;
+import core.card.Card.SIGN;
+import core.card.Card.VALUE;
+import core.card.CardPower;
 
 public class Rollout {
 	

@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
-import core.Card;
+import core.card.Card;
 
 public class Reader {
 	

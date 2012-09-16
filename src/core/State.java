@@ -1,6 +1,8 @@
 package core;
 import java.util.ArrayList;
 
+import core.card.Card;
+
 public class State {
 	
 	public enum STAGE{ // betting round
@@ -21,6 +23,7 @@ public class State {
 	private int biggestRaise = 0;
 	private int playersNotFolded = 0;
 	int numberOfRaises = 0;
+	int numberOfRaisesPerRound = 0;
 	
 	public State(int bigBlindSize) throws Exception {
 		if (bigBlindSize % 2 != 0) {
@@ -95,14 +98,24 @@ public class State {
 		stage = State.STAGE.PREFLOP;
 		pot = 0;
 		numberOfRaises = 0;
+		numberOfRaisesPerRound = 0;
 	}
 	
 	public int getNumberOfRaises() {
 		return numberOfRaises;
 	}
 	
+	public void resetNumberOfRaisesPerRound() {
+		numberOfRaisesPerRound = 0;
+	}
+	
+	public int getNumberOfRaisesPerRound() {
+		return numberOfRaisesPerRound;
+	}
+	
 	public void incrementNumberOfRaises() {
 		numberOfRaises++;
+		numberOfRaisesPerRound++;
 	}
 	
 	public String toString(){

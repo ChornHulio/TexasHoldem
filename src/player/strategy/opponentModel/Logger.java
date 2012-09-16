@@ -1,4 +1,4 @@
-package core;
+package player.strategy.opponentModel;
 
 public class Logger {
 	

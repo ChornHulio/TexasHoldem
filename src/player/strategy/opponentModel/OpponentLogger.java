@@ -1,12 +1,13 @@
-package core;
+package player.strategy.opponentModel;
 
 import java.util.ArrayList;
-
-import core.State.STAGE;
 
 import player.PlayerAction;
 import rollout.PreFlop;
 import rollout.Rollout;
+import core.State;
+import core.State.STAGE;
+import core.card.Card;
 
 public class OpponentLogger {
 	
@@ -26,7 +27,7 @@ public class OpponentLogger {
 		Context context = new Context();
 		context.setStage(state.getStage());
 		context.setNumberOfPlayers(state.getPlayersNotFolded());
-		context.setNumberOfRaises(state.getNumberOfRaises());
+		context.setNumberOfRaises(state.getNumberOfRaisesPerRound());
 		context.setPotOdd(action.getPotOdd());
 		histories.get(currentPlayer).addEntry(context, action);
 	}

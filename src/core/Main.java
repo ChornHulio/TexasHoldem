@@ -3,15 +3,16 @@ package core;
 import java.util.ArrayList;
 
 import player.ComputerPlayer;
-import player.HandStrengthStrategy;
-import player.IStrategy.AGGRESSIVITY;
-import player.ImprovedHandStrengthStrategy;
-import player.OpponentModelStrategy;
-import player.RandomStrategy;
-import player.SimplePowerRankingStrategy;
+import player.strategy.HandStrengthStrategy;
+import player.strategy.IStrategy.AGGRESSIVITY;
+import player.strategy.ImprovedHandStrengthStrategy;
+import player.strategy.RandomStrategy;
+import player.strategy.SimplePowerRankingStrategy;
+import player.strategy.opponentModel.Logger;
+import player.strategy.opponentModel.OpponentModel;
+import player.strategy.opponentModel.OpponentModelStrategy;
 import rollout.PreFlop;
 
-// TODO sort packages
 // TODO comments
 
 public class Main {	
@@ -21,24 +22,24 @@ public class Main {
 		Logger.DEBUG = false;
 		
 		int bettingRounds = 3;
-		int bigBlindSize = 2;
-		int hands = 3000;
+		int bigBlindSize = 20;
+		int hands = 10000;
 		int initialMoney = 0;
 		int iterationsOfRollouts = 20; // for ImprovedHandStrenghStrategy
 		
-		int randomPlayers = 1;
-		int simplePowerRankingPlayersRisky = 1;
-		int simplePowerRankingPlayersModerate = 1;
-		int simplePowerRankingPlayersConservative = 1;
-		int handStrengthPlayersRisky = 1;
-		int handStrengthPlayersModerate = 1;
-		int handStrengthPlayersConservative = 1;
+		int randomPlayers = 0;
+		int simplePowerRankingPlayersRisky = 0;
+		int simplePowerRankingPlayersModerate = 0;
+		int simplePowerRankingPlayersConservative = 0;
+		int handStrengthPlayersRisky = 0;
+		int handStrengthPlayersModerate = 2;
+		int handStrengthPlayersConservative = 0;
 		int improvedHandStrengthPlayersRisky = 0;
 		int improvedHandStrengthPlayersModerate = 0;
 		int improvedHandStrengthPlayersConservative = 0;
-		int modellingPlayersRisky = 1;
-		int modellingPlayersModerate = 1;
-		int modellingPlayersConservative = 1;
+		int modellingPlayersRisky = 0;
+		int modellingPlayersModerate = 2;
+		int modellingPlayersConservative = 0;
 		
 		String pathnameToRollout = "./rollouts";
 		ArrayList<PreFlop> preFlops = new ArrayList<PreFlop>();
@@ -50,45 +51,46 @@ public class Main {
 		ArrayList<OpponentModel> opponentModels = new ArrayList<OpponentModel>();
 				
 		// init
+		int count = 0;
 		Game g = new Game(bettingRounds, bigBlindSize, preFlops, opponentModels);
 		for (int i = 0; i < randomPlayers; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new RandomStrategy(), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new RandomStrategy(count++), initialMoney));
 		}
 		for (int i = 0; i < simplePowerRankingPlayersRisky; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new SimplePowerRankingStrategy(AGGRESSIVITY.RISKY), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new SimplePowerRankingStrategy(count++, AGGRESSIVITY.RISKY), initialMoney));
 		}
 		for (int i = 0; i < simplePowerRankingPlayersModerate; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new SimplePowerRankingStrategy(AGGRESSIVITY.MODERATE), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new SimplePowerRankingStrategy(count++, AGGRESSIVITY.MODERATE), initialMoney));
 		}
 		for (int i = 0; i < simplePowerRankingPlayersConservative; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new SimplePowerRankingStrategy(AGGRESSIVITY.CONSERVATIVE), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new SimplePowerRankingStrategy(count++, AGGRESSIVITY.CONSERVATIVE), initialMoney));
 		}
 		for (int i = 0; i < handStrengthPlayersRisky; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new HandStrengthStrategy(preFlops,AGGRESSIVITY.RISKY), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new HandStrengthStrategy(count++, preFlops,AGGRESSIVITY.RISKY), initialMoney));
 		}
 		for (int i = 0; i < handStrengthPlayersModerate; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new HandStrengthStrategy(preFlops, AGGRESSIVITY.MODERATE), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new HandStrengthStrategy(count++, preFlops, AGGRESSIVITY.MODERATE), initialMoney));
 		}
 		for (int i = 0; i < handStrengthPlayersConservative; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new HandStrengthStrategy(preFlops, AGGRESSIVITY.CONSERVATIVE), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new HandStrengthStrategy(count++, preFlops, AGGRESSIVITY.CONSERVATIVE), initialMoney));
 		}
 		for (int i = 0; i < improvedHandStrengthPlayersRisky; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new ImprovedHandStrengthStrategy(preFlops, AGGRESSIVITY.RISKY, iterationsOfRollouts), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new ImprovedHandStrengthStrategy(count++, preFlops, AGGRESSIVITY.RISKY, iterationsOfRollouts), initialMoney));
 		}
 		for (int i = 0; i < improvedHandStrengthPlayersModerate; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new ImprovedHandStrengthStrategy(preFlops, AGGRESSIVITY.MODERATE, iterationsOfRollouts), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new ImprovedHandStrengthStrategy(count++, preFlops, AGGRESSIVITY.MODERATE, iterationsOfRollouts), initialMoney));
 		}
 		for (int i = 0; i < improvedHandStrengthPlayersConservative; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new ImprovedHandStrengthStrategy(preFlops, AGGRESSIVITY.CONSERVATIVE, iterationsOfRollouts), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new ImprovedHandStrengthStrategy(count++, preFlops, AGGRESSIVITY.CONSERVATIVE, iterationsOfRollouts), initialMoney));
 		}
 		for (int i = 0; i < modellingPlayersRisky; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new OpponentModelStrategy(preFlops, AGGRESSIVITY.RISKY, opponentModels), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new OpponentModelStrategy(count++, preFlops, AGGRESSIVITY.RISKY, opponentModels), initialMoney));
 		}
 		for (int i = 0; i < modellingPlayersModerate; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new OpponentModelStrategy(preFlops, AGGRESSIVITY.MODERATE, opponentModels), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new OpponentModelStrategy(count++, preFlops, AGGRESSIVITY.MODERATE, opponentModels), initialMoney));
 		}
 		for (int i = 0; i < modellingPlayersConservative; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new OpponentModelStrategy(preFlops, AGGRESSIVITY.CONSERVATIVE, opponentModels), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new OpponentModelStrategy(count++, preFlops, AGGRESSIVITY.CONSERVATIVE, opponentModels), initialMoney));
 		}
 		
 		for (int i = 0; i < g.getNumberOfPlayers(); i++) {
@@ -100,7 +102,15 @@ public class Main {
 			if(i % 100 == 0 && i > 0) {
 				Logger.logInfo("Hand " + i + " of " + hands);
 			}
+			if(i % 1000 == 0 && i > 0) {
+				g.printCredits();
+			}
 			g.playHand(i);
+		}
+		
+		int index = 0;
+		for (OpponentModel opponentModel : opponentModels) {
+			Logger.logDebug("Model of opponent " + index++ + ":\n" + opponentModel);
 		}
 		
 		// print

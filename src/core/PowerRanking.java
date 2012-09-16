@@ -5,8 +5,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
-import core.Card.SIGN;
-import core.Card.VALUE;
+import core.card.Card;
+import core.card.Card.SIGN;
+import core.card.Card.VALUE;
+import core.card.CardGroup;
+import core.card.CardPower;
 
 
 public class PowerRanking {

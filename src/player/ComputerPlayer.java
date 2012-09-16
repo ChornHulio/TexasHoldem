@@ -2,8 +2,9 @@ package player;
 
 import java.util.ArrayList;
 
-import core.Card;
+import player.strategy.IStrategy;
 import core.State;
+import core.card.Card;
 
 public class ComputerPlayer implements IPlayer {
 
@@ -67,8 +68,12 @@ public class ComputerPlayer implements IPlayer {
 			action.action = PlayerAction.ACTION.FOLD;
 			return action;
 		}
-		
+
 		action = strategy.chooseAction(state, this);
+
+		double payToCall = state.getBiggestRaise() - currentBet;
+		action.potOdd = payToCall / (payToCall + state.getPot());
+		
 		if (action.action == PlayerAction.ACTION.CALL
 				|| (action.action == PlayerAction.ACTION.RAISE && !raiseAllowed)) {
 			action.action = PlayerAction.ACTION.CALL;
@@ -80,8 +85,6 @@ public class ComputerPlayer implements IPlayer {
 			folded = true;
 			action.action = PlayerAction.ACTION.FOLD;
 		}
-		double payToCall = state.getBiggestRaise() - currentBet;
-		action.potOdd = payToCall / (payToCall + state.getPot());
 		return action;
 	}
 	

@@ -1,4 +1,4 @@
-package core;
+package core.card;
 
 public class Card implements Comparable<Card> {
 

@@ -1,12 +1,13 @@
-package player;
+package player.strategy;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import player.IPlayer;
+import player.PlayerAction;
 import player.PlayerAction.ACTION;
 import rollout.PreFlop;
 import rollout.Rollout;
-
 import core.State;
 import core.State.STAGE;
 
@@ -20,8 +21,10 @@ public class ImprovedHandStrengthStrategy implements IStrategy{
 	PlayerAction lastAction;
 	double lastHandStrength;
 	double lastPotOdd;
+	int playerID;
 	
-	public ImprovedHandStrengthStrategy(ArrayList<PreFlop> preFlops, AGGRESSIVITY aggressivity, int iterationsOfRollout) {
+	public ImprovedHandStrengthStrategy(int i, ArrayList<PreFlop> preFlops, AGGRESSIVITY aggressivity, int iterationsOfRollout) {
+		playerID = i;
 		this.preFlop = preFlops;
 		this.aggressivity = aggressivity;
 		this.iterationsOfRollout = iterationsOfRollout;
@@ -39,14 +42,17 @@ public class ImprovedHandStrengthStrategy implements IStrategy{
 		
 		// minimum raise
 		double payToCall = state.getBiggestRaise() - player.getCurrentBet();		
-		double handStrengh = 0;
+		double handStrength = 0;
 		
 		if (state.getStage() == STAGE.PREFLOP) { // Preflop: look at preflop rollout
-			handStrengh = preFlop.get(state.getPlayersNotFolded() - 2).getStrength(player.getHoleCards());
+			handStrength = preFlop.get(state.getPlayersNotFolded() - 2).getStrength(player.getHoleCards());
 		} else {
-			handStrengh = new Rollout().simulateHandWithSharedCardsAndRandom(player.getHoleCards(), state.getSharedCards(), state.getPlayersNotFolded(),iterationsOfRollout);
+			handStrength = new Rollout().simulateHandWithSharedCardsAndRandom(player.getHoleCards(), state.getSharedCards(), state.getPlayersNotFolded(),iterationsOfRollout);
 		}
-		int willingToPay = (int) Math.exp((aggressivity.ordinal() + lambda) * handStrengh);
+//		int willingToPay = (int) Math.exp((aggressivity.ordinal() + lambda) * handStrength);
+//		int willingToPay = (int) (500.0 * (aggressivity.ordinal() + 1) * handStrength);
+//		int willingToPay = (int) (Math.tanh(handStrength*2) * 500.0 * (aggressivity.ordinal() + 1));
+		int willingToPay = (int) (Math.exp((handStrength * 3) - 3) * 100.0 * (aggressivity.ordinal() + 1));
 		if (willingToPay > Integer.MAX_VALUE || willingToPay < 0) {
 			willingToPay = Integer.MAX_VALUE;
 		}
@@ -62,7 +68,7 @@ public class ImprovedHandStrengthStrategy implements IStrategy{
 			lastAction.action = ACTION.RAISE;
 			lastAction.toPay = Math.max(willingToPay,minimumRaise);
 		}
-		lastHandStrength = handStrengh;
+		lastHandStrength = handStrength;
 		return lastAction;
 	}
 

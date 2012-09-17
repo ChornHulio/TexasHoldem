@@ -26,17 +26,17 @@ The \emph{Context} can be considered as the state of the game at a specific poin
 
 However, in order to estimate a player's hand in a given context correctly, the context have to be neither too general nor too specific. Therefore, the mentioned features have to be grouped into classes. For example, the pot odds of 0.20 and 0.21 should be considered the same. The classes that are used for the \emph{Opponent model strategy} are 
 \begin{itemize}
-	\item [The stage]  pre-flop, flop, turn or river
-	\item [The number of player] 1 to 3, 4 to 7 and 8 to 10
-	\item [The number of raises] 1 to 2 and more than 3
-	\item [The pott odds] 0.0 to 0.3 and more than 0.3
+	\item \textbf{The stage} pre-flop, flop, turn or river
+	\item \textbf{The number of player} 1 to 3, 4 to 7 and 8 to 10
+	\item \textbf{The number of raises} 1 to 2 and more than 3
+	\item \textbf{The pott odds} 0.0 to 0.3 and more than 0.3
 \end{itemize}
 
 \subsection{Player Action}
 The information about a player's action is also subdevided in classes.
 \begin{itemize}
-	\item [The action]  call or raise
-	\item [The bet] 1 to 500 and more than 500
+	\item \textbf{The action}  call or raise
+	\item \textbf{The bet} 1 to 500 and more than 500
 \end{itemize}
 There are no fold entries in the \emph{Opponent Model} because folded cards are never shawn at the showdown. 
 

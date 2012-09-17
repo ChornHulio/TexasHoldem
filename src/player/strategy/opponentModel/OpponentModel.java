@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import player.PlayerAction.ACTION;
 
+/**
+ * The behavior model of a player
+ *
+ */
 public class OpponentModel {
 
 	ArrayList<OpponentEntry> entries = new ArrayList<OpponentEntry>();
@@ -25,6 +29,10 @@ public class OpponentModel {
 		entries.add(new OpponentEntry(entryArg.getContext(), entryArg.getAction(), handStrength));
 	}
 
+	/**
+	 * The logger is forwarded to the model not to commit player's move history,
+	 * but in order that the model knows what the last action of a player was(CALL, RAISE etc.)
+	 */
 	public void setLogger(OpponentLogger opponentLogger) {
 		this.opponentLogger = opponentLogger;
 		

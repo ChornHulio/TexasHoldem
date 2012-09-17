@@ -9,6 +9,12 @@ import core.State;
 import core.State.STAGE;
 import core.card.Card;
 
+/**
+ * Tracks all moves off all player during one hand is played.
+ * Only the information about players who reach the showdown is
+ * committed to the model.
+ *
+ */
 public class OpponentLogger {
 	
 	ArrayList<OpponentHistory> histories = new ArrayList<OpponentHistory>();
@@ -23,6 +29,12 @@ public class OpponentLogger {
 		this.model = opponentModel;
 	}
 
+	/**
+	 * Log player's action
+	 * @param currentPlayer A player
+	 * @param state The state of the game
+	 * @param action The action a player has made
+	 */
 	public void addEntry(int currentPlayer, State state, PlayerAction action) {
 		Context context = new Context();
 		context.setStage(state.getStage());
@@ -32,23 +44,33 @@ public class OpponentLogger {
 		histories.get(currentPlayer).addEntry(context, action);
 	}
 	
+	/**
+	 * Commit all the actions the current player has made during the hand to the model (inclusive calculated hand strength)
+	 * @param currentPlayer The current player
+	 * @param holeCards The current player's hole cards
+	 * @param sharedCards The current shared cards
+	 */
 	public void showdown(int currentPlayer, ArrayList<Card> holeCards, ArrayList<Card> sharedCards) throws Exception {
 		for (OpponentEntry entry : histories.get(currentPlayer).getHistory()) {
 			double handStrength;
 			if(entry.getStage() == STAGE.PREFLOP) {
 				handStrength = preFlops.get(entry.getNumberOfPlayers() - 2).getStrength(holeCards);
 			} else { // flop, turn or river
-				ArrayList<Card> sharedCardsForStage = new ArrayList<Card>();
-				sharedCardsForStage.addAll(sharedCards.subList(0, entry.getStage().ordinal() + 2));
-				handStrength = new Rollout().simulateHandWithSharedCards(holeCards, sharedCardsForStage, entry.getNumberOfPlayers());
+				ArrayList<Card> currentSharedCards = new ArrayList<Card>();
+				currentSharedCards.addAll(sharedCards.subList(0, entry.getStage().ordinal() + 2));
+				handStrength = new Rollout().simulateHandWithSharedCards(holeCards, currentSharedCards, entry.getNumberOfPlayers());
 			}
 			model.get(currentPlayer).addEntry(entry, handStrength);
 		}
 	}
 
+	/**
+	 * 
+	 * @param playerID A player
+	 * @return The last action a player has made
+	 */
 	public OpponentEntry getLastEntry(int playerID) {
 		return histories.get(playerID).getLastEntry();
-		
 	}
 
 }

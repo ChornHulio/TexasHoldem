@@ -29,6 +29,11 @@ public class Deck {
 		return returnCards;
 	}
 
+	/**
+	 * Draw not random but specific cards from deck
+	 * @param cardsToRemove Cards being drawn from deck
+	 * @throws Exception if the cards being drawn are not in the deck
+	 */
 	public boolean removeCards(ArrayList<Card> cardsToRemove) throws Exception {
 		for (Card card : cardsToRemove) {
 			removeCard(card);
@@ -36,6 +41,11 @@ public class Deck {
 		return true;
 	}
 
+	/**
+	 * Draw one specific card
+	 * @param card Card to Drow
+	 * @throws if the card being drawn are not in the deck
+	 */
 	public boolean removeCard(Card card) throws Exception {
 		for (int i = 0; i < cards.size(); ++i) {
 			if (card.sign == cards.get(i).sign
@@ -47,6 +57,10 @@ public class Deck {
 		throw new Exception("Card not in deck");
 	}
 
+	/**
+	 * Computes all possible hole card combinations the deck can have
+	 * @return All possible hole card combinations the deck can have
+	 */
 	public ArrayList<ArrayList<Card>> holeCardsCombinations() {
 		ArrayList<ArrayList<Card>> combinations = new ArrayList<ArrayList<Card>>();
 		for (int i = 0; i < cards.size(); i++) { 
@@ -58,22 +72,5 @@ public class Deck {
 			}
 		}
 		return combinations;
-	}
-
-	public static void main(String[] args) throws Exception {
-		Card c1 = new Card(SIGN.CLUBS, VALUE.TEN);
-		Card c2 = new Card(SIGN.CLUBS, VALUE.JACK);
-		Card c3 = new Card(SIGN.CLUBS, VALUE.QUEEN);
-		Card c4 = new Card(SIGN.CLUBS, VALUE.KING);
-		Card c5 = new Card(SIGN.CLUBS, VALUE.ACE);
-
-		Deck deck = new Deck();
-		System.out.println(deck.holeCardsCombinations().size());
-		deck.removeCard(c1);
-		deck.removeCard(c2);
-		deck.removeCard(c3);
-		deck.removeCard(c4);
-		deck.removeCard(c5);
-		System.out.println(deck.holeCardsCombinations().size());
 	}
 }

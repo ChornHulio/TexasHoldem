@@ -19,8 +19,8 @@ public class RandomStrategy implements IStrategy{
 	}
 
 	/**
-	 * Choose random action
-	 * @return chosen action (FOLD, CALL, RAISE)
+	 * Chooses action randomly
+	 * @return Chosen action (FOLD, CALL, RAISE)
 	 */
 	@Override
 	public PlayerAction chooseAction(State state, IPlayer player) {

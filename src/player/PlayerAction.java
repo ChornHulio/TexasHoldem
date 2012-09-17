@@ -17,6 +17,10 @@ public class PlayerAction {
 	}
 
 	@Override
+	/**
+	 * Defines thresholds for considering player actions being equal
+	 * E.g. two actions where 20 and 22 units are bidden should be considered equal
+	 */
 	public boolean equals(Object o) {
 		if (o == null)
 			return false;

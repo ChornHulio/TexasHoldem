@@ -28,10 +28,9 @@ public class HandStrengthStrategy implements IStrategy {
 	}
 
 	/**
-	 * Choose action
-	 * 
+	 * Chooses action on the basis of a the hand strength
 	 * @return chosen action (FOLD, CALL, RAISE)
-	 * @throws Exception
+	 * @throws Exception 
 	 */
 	@Override
 	public PlayerAction chooseAction(State state, IPlayer player) throws Exception {

@@ -92,7 +92,7 @@ public class PowerRankingStrategy implements IStrategy{
 			} else if(lastAction.action == ACTION.RAISE) {
 //				int raise = (int) (Math.exp(cardPower.getAt(0))) * (aggressivity.ordinal() + 1) + state.getBigBlindSize();
 				// the bet is calculated with an exp-function of hand power
-				int raise = (int) (Math.exp(((double)cardPower.getAt(0) / 3.0) - 3) * 100.0 * (aggressivity.ordinal() + 1))+ state.getBigBlindSize();
+				int raise = (int) (Math.exp((double)(cardPower.getAt(0) / 3.0) - 3) * 100.0 * (aggressivity.ordinal() + 1))+ state.getBigBlindSize();
 				lastAction.toPay = raise + state.getBiggestRaise() - player.getCurrentBet();
 			}
 		}
@@ -104,7 +104,7 @@ public class PowerRankingStrategy implements IStrategy{
 	}
 
 	public int calculateRandomRaise(State state, int currentBet) {
-		int raise = generator.nextInt(3 * state.getBigBlindSize()) + 1;
+		int raise = generator.nextInt(3 * state.getBigBlindSize()) + state.getBigBlindSize();
 		int toPay = raise + state.getBiggestRaise() - currentBet;
 		return toPay;
 	}

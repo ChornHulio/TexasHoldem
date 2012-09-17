@@ -18,25 +18,25 @@ public class Main {
 		
 		Logger.DEBUG = false;
 		
-		int bettingRounds = 3;
-		int bigBlindSize = 20;
-		int hands = 10000;
-		int initialMoney = 0;
-		int iterationsOfRollouts = 50; // for ImprovedHandStrenghStrategy
-		
-		int randomPlayers = 1;
+		int randomPlayers = 0;
 		int simplePowerRankingPlayersRisky = 0;
-		int simplePowerRankingPlayersModerate = 1;
+		int simplePowerRankingPlayersModerate = 0;
 		int simplePowerRankingPlayersConservative = 0;
-		int handStrengthPlayersRisky = 1;
-		int handStrengthPlayersModerate = 0;
-		int handStrengthPlayersConservative = 1;
-		int improvedHandStrengthPlayersRisky = 1;
+		int handStrengthPlayersRisky = 2;
+		int handStrengthPlayersModerate = 2;
+		int handStrengthPlayersConservative = 2;
+		int improvedHandStrengthPlayersRisky = 0;
 		int improvedHandStrengthPlayersModerate = 0;
-		int improvedHandStrengthPlayersConservative = 1;
+		int improvedHandStrengthPlayersConservative = 0;
 		int modellingPlayersRisky = 0;
 		int modellingPlayersModerate = 0;
 		int modellingPlayersConservative = 0;
+		
+		int bettingRounds = 3;
+		int bigBlindSize = 2;
+		int hands = 10000;
+		int initialMoney = 0;
+		int iterationsOfRollouts = 100; // for ImprovedHandStrenghStrategy
 		
 		String pathnameToRollout = "./rollouts";
 		ArrayList<PreFlop> preFlops = new ArrayList<PreFlop>();

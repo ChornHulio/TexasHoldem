@@ -1,0 +1,41 @@
+Phase II Results
+10000 Iterations
+
+Game 1
+Player 0 :      -197017 (HandStrength | RISKY)
+Player 1 :        -3282 (HandStrength | MODERATE)
+Player 2 :       131998 (HandStrength | CONSERVATIVE)
+Player 3 :      -141772 (OpponentModel | RISKY)
+Player 4 :        54823 (OpponentModel | MODERATE)
+Player 5 :       155045 (OpponentModel | CONSERVATIVE)
+
+Game 2
+Player 0 :      -202631 (HandStrength | RISKY)
+Player 1 :        -1537 (HandStrength | MODERATE)
+Player 2 :       139472 (HandStrength | CONSERVATIVE)
+Player 3 :      -192630 (OpponentModel | RISKY)
+Player 4 :       112741 (OpponentModel | MODERATE)
+Player 5 :       144364 (OpponentModel | CONSERVATIVE)
+
+Game 3:
+Player 0 :      -188055 (HandStrength | RISKY)
+Player 1 :       -13592 (HandStrength | MODERATE)
+Player 2 :       166900 (HandStrength | CONSERVATIVE)
+Player 3 :      -125045 (OpponentModel | RISKY)
+Player 4 :        33273 (OpponentModel | MODERATE)
+Player 5 :       126323 (OpponentModel | CONSERVATIVE)
+
+Game 4:
+Player 0 :      -262959 (HandStrength | RISKY)
+Player 1 :        -3550 (HandStrength | MODERATE)
+Player 2 :       169885 (HandStrength | CONSERVATIVE)
+Player 3 :      -110525 (OpponentModel | RISKY)
+Player 4 :        71858 (OpponentModel | MODERATE)
+Player 5 :       135084 (OpponentModel | CONSERVATIVE)
+
+Player 0 :      -196894 (HandStrength | RISKY)
+Player 1 :       -12102 (HandStrength | MODERATE)
+Player 2 :       114067 (HandStrength | CONSERVATIVE)
+Player 3 :      -153198 (OpponentModel | RISKY)
+Player 4 :        99823 (OpponentModel | MODERATE)
+Player 5 :       148064 (OpponentModel | CONSERVATIVE)

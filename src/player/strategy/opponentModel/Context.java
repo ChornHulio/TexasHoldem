@@ -48,6 +48,7 @@ public class Context {
 			return false;
 		Context that = (Context) o;
 
+		// stage
 		if (this.stage != that.stage) {
 			return false;
 		}

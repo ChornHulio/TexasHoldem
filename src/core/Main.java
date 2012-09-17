@@ -7,7 +7,7 @@ import player.strategy.HandStrengthStrategy;
 import player.strategy.IStrategy.AGGRESSIVITY;
 import player.strategy.ImprovedHandStrengthStrategy;
 import player.strategy.RandomStrategy;
-import player.strategy.SimplePowerRankingStrategy;
+import player.strategy.PowerRankingStrategy;
 import player.strategy.opponentModel.OpponentModel;
 import player.strategy.opponentModel.OpponentModelStrategy;
 import rollout.PreFlop;
@@ -56,13 +56,13 @@ public class Main {
 			g.addPlayer(new ComputerPlayer(g.getState(), new RandomStrategy(count++), initialMoney));
 		}
 		for (int i = 0; i < simplePowerRankingPlayersRisky; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new SimplePowerRankingStrategy(count++, AGGRESSIVITY.RISKY), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new PowerRankingStrategy(count++, AGGRESSIVITY.RISKY), initialMoney));
 		}
 		for (int i = 0; i < simplePowerRankingPlayersModerate; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new SimplePowerRankingStrategy(count++, AGGRESSIVITY.MODERATE), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new PowerRankingStrategy(count++, AGGRESSIVITY.MODERATE), initialMoney));
 		}
 		for (int i = 0; i < simplePowerRankingPlayersConservative; i++) {
-			g.addPlayer(new ComputerPlayer(g.getState(), new SimplePowerRankingStrategy(count++, AGGRESSIVITY.CONSERVATIVE), initialMoney));
+			g.addPlayer(new ComputerPlayer(g.getState(), new PowerRankingStrategy(count++, AGGRESSIVITY.CONSERVATIVE), initialMoney));
 		}
 		for (int i = 0; i < handStrengthPlayersRisky; i++) {
 			g.addPlayer(new ComputerPlayer(g.getState(), new HandStrengthStrategy(count++, preFlops,AGGRESSIVITY.RISKY), initialMoney));

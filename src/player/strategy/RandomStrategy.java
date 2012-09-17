@@ -46,7 +46,7 @@ public class RandomStrategy implements IStrategy{
 	}
 
 	public int calculateRaise(State state, int currentBet) {
-		int raise = generator.nextInt(3 * state.getBigBlindSize()) + 1;
+		int raise = generator.nextInt(3 * state.getBigBlindSize()) + state.getBigBlindSize();
 		int toPay = raise + state.getBiggestRaise() - currentBet;
 		return toPay;
 	}

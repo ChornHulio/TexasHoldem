@@ -190,7 +190,7 @@ public class Rollout {
 		int iterations = 100000;
 		int maxPlayers = 10;
 		long time = System.currentTimeMillis();
-		new Rollout().doRollouts(iterations, maxPlayers, "./rolloutsDebug/");
+		new Rollout().doRollouts(iterations, maxPlayers, "./rollouts/");
 		System.out.println("computation time: " + (System.currentTimeMillis() - time));
 	}
 

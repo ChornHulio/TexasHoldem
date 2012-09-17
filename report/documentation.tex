@@ -1,0 +1,56 @@
+%%**************************************************************
+%% AI Project I: Texas Hold'em 
+%%
+%% Author: Tobias Dreher, Dmitriy Zharkov
+%% Date: September 2012
+%%**************************************************************
+
+\input{settings/header} 
+
+\title{Texas Hold'em}
+\subtitle{Artificial Intelligence Programming - Project I}
+\author{Tobias Dreher, Dmitriy Zharkov}
+\date{September 2012}
+\newcommand{\covertitle}{Texas Hold'em}
+\newcommand{\coversubtitle}{Artificial Intelligence Programming - Project I}
+\newcommand{\coverauthor}{Tobias Dreher, Dmitriy Zharkov}
+\newcommand{\coverdate}{September 2012}
+
+\def\thesisTitle{Texas Hold'em} 
+
+\input{settings/hyphenation}
+\makeglossaries
+\input{coverage/glossary}
+
+\begin{document}
+
+  % Deckblatt
+  \input{coverage/cover}
+  \newpage
+
+  \renewcommand{\thepage}{\Roman{page}}
+  \setcounter{page}{1}
+  
+  % Inhaltsverzeichnis
+  \begin{spacing}{1.3}
+	  \setcounter{tocdepth}{1}
+	  \tableofcontents
+  \end{spacing}
+  \newpage
+
+  \renewcommand{\thepage}{\arabic{page}}
+  \setcounter{page}{1}
+
+  % Inhalt
+  \input{content/introduction}
+  \input{content/phase1}
+  \input{content/phase2}
+  \input{content/phase3}
+  \input{content/conclusion}
+
+  % Literaturverzeichnis
+  \clearpage
+  \phantomsection
+  \input{coverage/literatur}
+\end{document}
+

@@ -1,0 +1,122 @@
+%
+% Nahezu alle Einstellungen koennen hier getaetigt werden
+%
+
+\documentclass[%
+  pdftex,
+  oneside,	% Einseitiger Druck.
+  11pt,		% Schriftgroesse
+  parskip=half,	% Halbe Zeile Abstand zwischen Absätzen.
+  headsepline,	% Linie nach Kopfzeile.
+  footsepline,	% Linie vor Fusszeile.
+  %abstracton,	% Abstract Überschriften
+  idxtotoc,	% Index im Inhaltsverzeichnis
+  %liststotoc,	% Abb.- und Tab.verzeichnis im Inhalt
+  bibtotoc,	% Literaturverzeichnis im Inhalt
+]{scrreprt}
+
+% Lokalisierung (neue deutsche Rechtschreibung)
+\usepackage[english]{babel}
+
+%Seitengroesse
+\usepackage{fullpage}
+
+%Zeilenumbruch und mehr
+\usepackage[activate]{microtype}
+
+% Zeichencodierung
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Zeilenabstand
+\usepackage[onehalfspacing]{setspace}
+
+% Index-Erstellung
+\usepackage{makeidx}
+
+% Spezielle Tabellenform fuer Deckblatt
+\usepackage{longtable}
+\setlength{\tabcolsep}{10pt} %Abstand zwischen Spalten
+\renewcommand{\arraystretch}{1.2} %Zeilenabstand
+\usepackage{multirow}
+
+% Grafiken
+\usepackage{graphicx}
+
+% Mathematische Textsaetze
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+
+% Pakete um Textteile drehen zu können, oder eine Seite Querformat anzeigen kann.
+%\usepackage{rotating}
+%\usepackage{lscape}
+
+% Farben
+\usepackage{color}
+\definecolor{LinkColor}{rgb}{0,0,0.2}
+\definecolor{ListingBackground}{rgb}{0.92,0.92,0.92}
+
+% PDF Einstellungen
+\usepackage[%
+	pdftitle={Texas Hold'em - AI Project I},
+	pdfauthor={Tobias Dreher, Dmitriy Zharkov},
+	pdfcreator={pdflatex},
+	pdfpagemode=UseOutlines, % Beim Oeffnen Inhaltsverzeichnis anzeigen
+	pdfdisplaydoctitle=true, % Dokumenttitel statt Dateiname anzeigen.
+	pdflang=de % Sprache des Dokuments.
+]{hyperref}
+
+% (Farb-)einstellungen für die Links im PDF
+\hypersetup{%
+	colorlinks=true, % Aktivieren von farbigen Links im Dokument
+	linkcolor=LinkColor, % Farbe festlegen
+	citecolor=LinkColor,
+	filecolor=LinkColor,
+	menucolor=LinkColor,
+	urlcolor=LinkColor,
+	bookmarksnumbered=true % Überschriftsnummerierung im PDF Inhalt anzeigen.
+}
+
+% Verschiedene Schriftarten
+%\usepackage{goudysans}
+%\usepackage{lmodern}
+%\usepackage{libertine}
+\usepackage{palatino} 
+
+% Hurenkinder und Schusterjungen verhindern
+% http://projekte.dante.de/DanteFAQ/Silbentrennung
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+
+% Quellcode
+\usepackage{listings}
+\lstloadlanguages{Java}
+\lstset{%
+	language=PHP,		 	 % Sprache des Quellcodes
+	%numbers=left,           % Zelennummern links
+	stepnumber=1,            % Jede Zeile nummerieren.
+	numbersep=5pt,           % 5pt Abstand zum Quellcode
+	numberstyle=\tiny,       % Zeichengrösse 'tiny' für die Nummern.
+	breaklines=true,         % Zeilen umbrechen wenn notwendig.
+	breakautoindent=true,    % Nach dem Zeilenumbruch Zeile einrücken.
+	postbreak=\space,        % Bei Leerzeichen umbrechen.
+	tabsize=2,               % Tabulatorgrösse 2
+	basicstyle=\ttfamily\footnotesize, % Nichtproportionale Schrift, klein für den Quellcode
+	showspaces=false,        % Leerzeichen nicht anzeigen.
+	showstringspaces=false,  % Leerzeichen auch in Strings ('') nicht anzeigen.
+	extendedchars=true,      % Alle Zeichen vom Latin1 Zeichensatz anzeigen.
+	captionpos=b,            % sets the caption-position to bottom
+	backgroundcolor=\color{ListingBackground} % Hintergrundfarbe des Quellcodes setzen.
+}
+
+% Glossar
+\usepackage[
+	nonumberlist, 	% keine Seitenzahlen anzeigen
+	acronym,      	% ein Abkürzungsverzeichnis erstellen
+	%section,     	% im Inhaltsverzeichnis auf section-Ebene erscheinen
+	%xindy		% alternative Nutzung, statt makeindex
+	toc,          	% Einträge im Inhaltsverzeichnis
+]{glossaries}
+\glsdisablehyper % den Punkt am Ende deaktivieren
+\renewcommand*{\glspostdescription}{}

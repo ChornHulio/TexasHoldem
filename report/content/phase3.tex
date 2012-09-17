@@ -24,17 +24,30 @@ The \emph{Context} can be considered as the state of the game at a specific poin
 	\item The pott odds
 \end{itemize}
 
-\subsection{Context}
+However, in order to estimate a player's hand in a given context correctly, the context have to be neither too general nor too specific. Therefore, the mentioned features have to be grouped into classes. For example, the pot odds of 0.20 and 0.21 should be considered the same. The classes that are used for the \emph{Opponent model strategy} are 
+\begin{itemize}
+	\item [The stage]  pre-flop, flop, turn or river
+	\item [The number of player] 1 to 3, 4 to 7 and 8 to 10
+	\item [The number of raises] 1 to 2 and more than 3
+	\item [The pott odds] 0.0 to 0.3 and more than 0.3
+\end{itemize}
+
+\subsection{Player Action}
+The information about a player's action is also subdevided in classes.
+\begin{itemize}
+	\item [The action]  call or raise
+	\item [The bet] 1 to 500 and more than 500
+\end{itemize}
+There are no fold entries in the \emph{Opponent Model} because folded cards are never shawn at the showdown. 
 
 \section{Opponent model strategy}
 Basically the phase III player acts the same way like phase II player does. At first the amount that a player is willing to pay is calculated the same way. Afterwards the opponents' hand strengths are estimated. The player compares his own hand strengths with the estimated strengths and gets a number of players who are supposedly better and worse than him. These numbers are used to adjust the player's bet. The new bet is calculated as shown in \ref{equ:opponentModel1}, where $b'$ is the new bet, $b$ the old bet, $better$ the number of players who are better and $worse$ the number of player who are worse than the current player.
+//TODO: formel ausführlicher
 
 \begin{equation}
 	\label{equ:opponentModel1}
 	b' = b * (\frac{worse - better}{10})
 \end{equation}
-
-// TODO: contexts
 
 \section{Results}
 

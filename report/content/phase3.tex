@@ -1,6 +1,6 @@
 \chapter{Phase III}
 
-\section{Structur of software}
+\section{Structure of software}
 The figure \ref{fig:phase3} shows the implementation details behind the \emph{Opponent Model Strategy}. The \emph{Opponent Logger} tracks all the actions that are made by all players and associates them with the context at which these actions have been made. These actions are stored as a list of \emph{Opponent Entry}-objects. 
 
 At the showdown all the players that are still in the game have to show their cards. Now the \emph{Opponent Entry}-list of these players is went through. The player's cards are combined with the share cards and the hand strength is computed. The hand strength is committed to the \emph{Opponent Model} together with the current context and the player's action.
@@ -29,11 +29,11 @@ However, in order to estimate a player's hand in a given context correctly, the 
 	\item \textbf{The stage:} pre-flop, flop, turn or river
 	\item \textbf{The number of player:} 1 to 3, 4 to 7 and 8 to 10
 	\item \textbf{The number of raises:} 1 to 2 and more than 3
-	\item \textbf{The pott odds:} 0.0 to 0.3 and more than 0.3
+	\item \textbf{The pot odds:} 0.0 to 0.3 and more than 0.3
 \end{itemize}
 
 \subsection{Player Action}
-The information about a player's action is also subdevided in classes.
+The information about a player's action is also subdivided in classes.
 \begin{itemize}
 	\item \textbf{The action:}  call or raise
 	\item \textbf{The bet:} 1 to 500 and more than 500
@@ -52,7 +52,7 @@ The player compares his own hand strengths with the estimated strengths and gets
 At the beginning, when there are very few hands played and the model has almost no entries, the estimated number of better/worse players will be close to zero. That means that there is no adjustment to the bet and the player plays exactly the way the phase II player does. As the number of played hands rises, the model will have more information about the players and the bet will be adjusted more often.
 
 \section{Results}
-As shown in Table \ref{tbl:resultsPhase3a} the \emph{Opponent model strategy}-Player is slightly better than phase II player. The fact that there is not a bigger difference between them may be a hint to not optimally chosen context classes. In general the coservative players are better than the risky ones. The reasons are the same as seen in phase II.
+As shown in Table \ref{tbl:resultsPhase3a} the \emph{Opponent model strategy}-Player is slightly better than phase II player. The fact that there is not a bigger difference between them may be a hint to not optimally chosen context classes. In general the conservative players are better than the risky ones. The reasons are the same as seen in phase II.
 \begin{table}[h]
 	\centering
 	\begin{tabular}[h]{l|r|r|r|r|r}
@@ -70,7 +70,7 @@ As shown in Table \ref{tbl:resultsPhase3a} the \emph{Opponent model strategy}-Pl
 \end{table}
 
 
-Table \ref{tbl:resultsPhase3b} shows the competition among all phases. For performance reasons, the \emph{Improved Hand Strengh Strategy}-player is not in the competition. The gap between the phase II and phase III player increases, because the phase I player can be easily estimated by the opponent model.
+Table \ref{tbl:resultsPhase3b} shows the competition among all phases. For performance reasons, the \emph{Improved Hand Strength Strategy}-player is not in the competition. The gap between the phase II and phase III player increases, because the phase I player can be easily estimated by the opponent model.
 \begin{table}[h]
 	\centering
 	\begin{tabular}[h]{l|r|r|r|r|r}

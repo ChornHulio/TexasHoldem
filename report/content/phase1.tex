@@ -1,9 +1,9 @@
 \chapter{Phase I}
 
-\section{Structur of software}
-In figure \ref{fig:phase1} the basic of the poker engine is shown. The central class is \emph{Game} where each hand is played. Each hand consists of several rounds. Before the first round the hole cards are drawn out of the deck and dealt to each player. After each round of betting the shared cards are drawn out of the deck and commited to \emph{State}.
+\section{Structure of software}
+In figure \ref{fig:phase1} the basic of the poker engine is shown. The central class is \emph{Game} where each hand is played. Each hand consists of several rounds. Before the first round the hole cards are drawn out of the deck and dealt to each player. After each round of betting the shared cards are drawn out of the deck and committed to \emph{State}.
 
-During each betting round every player is asked to to make a bet (\emph{makeBet()}) which can be \emph{Fold}, \emph{Call} or \emph{Raise}. For reasons of simplicity the action \emph{Check} is considered a \emph{Call} with bet 0. The action made by a player depends on his strategy. In phase I there are two strategies implemented. These are further descriped in section \ref{sec:strategies}.
+During each betting round every player is asked to to make a bet (\emph{makeBet()}) which can be \emph{Fold}, \emph{Call} or \emph{Raise}. For reasons of simplicity the action \emph{Check} is considered a \emph{Call} with bet 0. The action made by a player depends on his strategy. In phase I there are two strategies implemented. These are further described in section \ref{sec:strategies}.
 
 There are two possibilities how a hand can end. Either only one player is left before the last betting round has finished or there is a showdown after the last betting round. In the first case the only player left gets the hole pot. In the second case the hand powers of all remaining players are compared in the method \emph{findWinners()}. The method uses the class \emph{PowerRanking} to calculate the hand power. The pot is shared among the winners in the method \emph{sharePot()}.
 
@@ -19,7 +19,7 @@ There are two possibilities how a hand can end. Either only one player is left b
 In order to check the correctness of the game engine a \emph{Random Strategy} is implemented. The next step is to implement a more intelligent strategy that makes its decision on the basis of its current card power.
 
 \subsection{Random Strategy}
-\emph{Random Strategy} is the most simple strategy. It has no intelligence at all and chooses its decisions randomly. Firstly it makes a choise between \emph{Fold}, \emph{Call} and \emph{Raise}. In the case of \emph{Raise} the raise amount is calculated randomly between the onefold and the fourfold of the \emph{Big Blind}.
+\emph{Random Strategy} is the most simple strategy. It has no intelligence at all and chooses its decisions randomly. Firstly it makes a choice between \emph{Fold}, \emph{Call} and \emph{Raise}. In the case of \emph{Raise} the raise amount is calculated randomly between the one-fold and the fourfold of the \emph{Big Blind}.
 
 \subsection{Power-Ranking Strategy}
 The action which the \emph{Power-Ranking Strategy} chooses depends on his current card power. If the card power reaches defined thresholds the player is calling or raising. Additionally there are three different levels of aggressivity. The thresholds for each aggressivity level are shown in the table \ref{tbl:powerRankingAggros}

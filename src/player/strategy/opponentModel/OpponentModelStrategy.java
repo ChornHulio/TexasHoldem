@@ -31,7 +31,7 @@ public class OpponentModelStrategy implements IStrategy {
 	}
 
 	/**
-	 * Choose action
+	 * Chooses action on the basis of the opponent model, the hand strength, pot odds and number of raises
 	 * 
 	 * @return chosen action (FOLD, CALL, RAISE)
 	 * @throws Exception
@@ -59,7 +59,7 @@ public class OpponentModelStrategy implements IStrategy {
 			}
 		}
 
-		// interprete opponentStrength
+		// count how many players are better/worse than me
 		int betterThanMe = 0;
 		int worseThanMe = 0;
 		for (Double opponentStrength : opponentStrengths) {
@@ -74,15 +74,21 @@ public class OpponentModelStrategy implements IStrategy {
 		// int willingToPay = (int) (500.0 * (aggressivity.ordinal() + 1) * handStrength);
 		// int willingToPay = (int) (Math.tanh(handStrength*2) * 500.0 * (aggressivity.ordinal() + 1));
 		int willingToPay = (int) (Math.exp((handStrength * 3) - 3) * 100.0 * (aggressivity.ordinal() + 1));
+		
+		// pay less/more, if there are player who have better/worse cards than you
 		willingToPay *= (1.0 + (double) (worseThanMe - betterThanMe) / 10);
 		if (willingToPay > Integer.MAX_VALUE || willingToPay < 0) {
 			willingToPay = Integer.MAX_VALUE;
 		}
 
 		int minimumRaise = Math.max(state.getBiggestRaise(), state.getBigBlindSize());
+		
+		//the pod odd has influence on the decision whether to fold or to stay in the game
 		if (willingToPay < payToCall * lastPotOdd) {
 			lastAction.action = ACTION.FOLD;
-		} else if (Math.max(willingToPay, minimumRaise) < payToCall * (1.0 / (1.0 + state.getNumberOfRaises())) || minimumRaise >= willingToPay) {
+		} 
+		// the number of raises has influence on the decision whether to call or to raise
+		else if (Math.max(willingToPay, minimumRaise) < payToCall * (1.0 / (1.0 + state.getNumberOfRaises())) || minimumRaise >= willingToPay) {
 			lastAction.action = ACTION.CALL;
 			lastAction.toPay = state.getBiggestRaise() - player.getCurrentBet();
 		} else {
@@ -95,8 +101,7 @@ public class OpponentModelStrategy implements IStrategy {
 
 	private double calculateHandStrength(State state, IPlayer player, int numberOfPlayers) throws Exception {
 		double handStrengh;
-		if (state.getStage() == STAGE.PREFLOP) { // Preflop: look at preflop
-													// rollout
+		if (state.getStage() == STAGE.PREFLOP) { 
 			numberOfPlayers = Math.min(numberOfPlayers, 10);
 			handStrengh = preFlop.get(numberOfPlayers - 2).getStrength(player.getHoleCards());
 		} else {

@@ -2,7 +2,27 @@ Phase II Results
 10000 Iterations
 
 Game 1
-
+Player 0 :      -248413 (HandStrength | RISKY)
+Player 1 :      -155327 (HandStrength | RISKY)
+Player 2 :       -29572 (HandStrength | MODERATE)
+Player 3 :        84684 (HandStrength | MODERATE)
+Player 4 :       200887 (HandStrength | CONSERVATIVE)
+Player 5 :       147595 (HandStrength | CONSERVATIVE)
 
 Game 2
+Player 0 :      -314686 (HandStrength | RISKY)
+Player 1 :      -151467 (HandStrength | RISKY)
+Player 2 :        49987 (HandStrength | MODERATE)
+Player 3 :        48850 (HandStrength | MODERATE)
+Player 4 :       173006 (HandStrength | CONSERVATIVE)
+Player 5 :       194157 (HandStrength | CONSERVATIVE)
 
+Game 3
+Player 0 :      -299379 (HandStrength | RISKY)
+Player 1 :      -154479 (HandStrength | RISKY)
+Player 2 :        91098 (HandStrength | MODERATE)
+Player 3 :        51756 (HandStrength | MODERATE)
+Player 4 :       149211 (HandStrength | CONSERVATIVE)
+Player 5 :       161663 (HandStrength | CONSERVATIVE)
+
+Game 4:

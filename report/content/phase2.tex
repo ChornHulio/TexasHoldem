@@ -33,7 +33,7 @@ The problem with this approach is that the missing shared cards at the flop and 
 \section{Strategies}
 The expectation is that the phase II strategies beat the phase I strategies.
 
-\subsection{Hand strengh strategy}
+\subsection{Hand Strengh Strategy}
 The amount of money the player is willing to pay $w$ is calculated on the basis of his hand strength $h$ and the aggressivity level $a$ as shown in formula \ref{equ:handStrength1}. Like in phase I the aggressivity level is a number between 1 and 3. The riskier a player the more is he willing to pay. The maximum amount the a risky player would pay is 
 
 \begin{equation}
@@ -49,7 +49,7 @@ After $w$ is calculated the player's action is detemined on the basis of $w$. If
 \end{equation}
 
 
-\subsection{Improved hand strengh strategy}
+\subsection{Improved Hand Strengh Strategy}
 The \emph{Improved Hand Strength Strategy} computes the bets the same way like the \emph{Improved Hand Strength Strategy} but it also draws the missing shared cards at the flop and at the turn. Therefore it is significantly slower, but the calculated hand strengths are expected to be more precise.
 
 \section{Results}
@@ -67,7 +67,7 @@ Table \ref{tbl:resultsPhase2a} shows five 10,000 hand runs where \emph{Hand Stre
 		Hand Strength (conservative) & 147595 & 194157 & 161663 & 115740 & 143957\\
 	\end{tabular}
 	\label{tbl:resultsPhase2a}
-	\caption{Results of phase II}
+	\caption{Results of phase II. 10.000 hands on each run.}
 \end{table}
 The conservative player is the most successful one. The reason for that he is only willing to play  a hand if his cards are very good. Therefore he is more likely to win at showdown.
 

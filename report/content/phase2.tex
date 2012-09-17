@@ -16,7 +16,7 @@ The calculation of the hand strength is done differently depending whether it's 
 \subsection{Pre Flop}
 For the calculation of the hand strength at the pre flop two cards are fixed and the remaining 50 cards are dealt out. This is done many times. The count of the number of times that these two cards win is divided by the number of rollouts to estimate the hand strength of the two cards. 
 
-In order to reduce the number of rollout simulations the cards are divided in equivalence classes. For example the strength of a pair of Jacks is independent of the sign. Despite of that there are 169 equivalence classes. For each of these classes 10,000 rollout simulations are performed. This has to be done for every number of players between 2 and 10. So there are over 15 millions simulations to perform. Therefore it is reasonable to do this computation offline and store them in files. The figure \ref{fig:preflop} visualizes such a file.
+In order to reduce the number of rollout simulations the cards are divided in equivalence classes. For example the strength of a pair of Jacks is independent of the sign. Despite of that there are 169 equivalence classes. For each of these classes 10,000 rollout simulations are performed. This has to be done for every number of players between 2 and 10. So there are over 15 millions simulations to perform. Therefore it is reasonable to do this computation offline and store them in files. The figure \ref{fig:preflop} shows such a file.
 
 \begin{figure}[h]
   \centering
@@ -53,7 +53,7 @@ After $w$ is calculated the player's action is detemined on the basis of $w$. If
 The \emph{Improved Hand Strength Strategy} computes the bets the same way like the \emph{Improved Hand Strength Strategy} but it also draws the missing shared cards at the flop and at the turn. Therefore it is significantly slower, but the calculated hand strengths are expected to be more precise.
 
 \section{Results}
-Table \ref{tbl:resultsPhase2a} shows five 10,000 hand runs where \emph{Hand Strength Strategy}-players play against each other
+Table \ref{tbl:resultsPhase2a} shows five 10,000 hand runs where \emph{Hand Strength Strategy}-players play against each other. The conservative player is the most successful one. The reason for that he is only willing to play  a hand if his cards are very good. Therefore he is more likely to win at showdown.
 \begin{table}[h]
 	\centering
 	\begin{tabular}[h]{l|r|r|r|r|r}
@@ -67,7 +67,23 @@ Table \ref{tbl:resultsPhase2a} shows five 10,000 hand runs where \emph{Hand Stre
 		Hand Strength (conservative) & 147595 & 194157 & 161663 & 115740 & 143957\\
 	\end{tabular}
 	\label{tbl:resultsPhase2a}
-	\caption{Results of phase II. 10.000 hands on each run.}
+	\caption{Results of phase II. 10.000 hands on each run (without Improved Hand Strength Players)}
 \end{table}
-The conservative player is the most successful one. The reason for that he is only willing to play  a hand if his cards are very good. Therefore he is more likely to win at showdown.
+
+In table \ref{tbl:resultsPhase2b} the difference between the \emph{Hand Strength Strategy} and the \emph{Improved Hand Strength Strategy} is shown. For performance reasons, only 500 hands are played on each run. A slight improvement could be achieved but due to the fact that the number of simulated hands is quite small, this statement is not very reliable.
+\begin{table}[h]
+	\centering
+	\begin{tabular}[h]{l|r|r|r|r|r}
+		& \textbf{Game 1} & \textbf{Game 2} & \textbf{Game 3} & \textbf{Game 4} & \textbf{Game 5}\\
+		\hline
+		Hand Strength (risky) & -24800 & -16712 & -5346 & -22282 & -6416\\
+		Hand Strength (moderate) & -4161 & 4549 & -3506 & 620 & 2972\\
+		Hand Strength (conservative) & 5322 & 12237 & 3358 & 3554 & 6218\\
+		Improved Hand Strength (risky) & 4285 & -5861 & 797 & 3077 & -9541\\
+		Improved Hand Strength (moderate) & 6721 & 10362 & 190 & 2490 & -170\\
+		Improved Hand Strength (conservative) & 12628 & 4517 & 4498 & 12532 & 6921\\
+	\end{tabular}
+	\label{tbl:resultsPhase2b}
+	\caption{Results of phase II. 500 hands on each run.}
+\end{table}
 

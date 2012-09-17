@@ -1,7 +1,7 @@
 \chapter{Phase II}
 
 \section{Structur of software}
-The Figure \ref{fig:phase2} shows the additional extensions to the first phase. Here two new strategies are implemented. Both of them use the calculated hand strength to make their decisions. The hand strength calculated by the \emph{Improved Hand Strength Strategy} is more precise than the hand strength of the \emph{Hand Strength Strategy} but needs much more time to calculate. Because the pre flop hand strengths for every card possibility are calculated offline they are saved in files. Therefore a \emph{Writer} and a \emph{Reader} are needed.
+The figure \ref{fig:phase2} shows the additional extensions to the first phase. Here two new strategies are implemented. Both of them use the calculated hand strength to make their decisions. The hand strength calculated by the \emph{Improved Hand Strength Strategy} is more precise than the hand strength of the \emph{Hand Strength Strategy} but needs much more time to calculate. Because the pre flop hand strengths for every card possibility are calculated offline they are saved in files. Therefore a \emph{Writer} and a \emph{Reader} are needed.
 
 \begin{figure}[h]
   \centering
@@ -28,13 +28,13 @@ In order to reduce the number of rollout simulations the cards are divided in eq
 \subsection{Flop, Turn and River}
 After the pre flop stage there are shared cards available. Therefore the card power can be determined. Every possible combination of opposing hole cards is combined with the given shared cards to see if it yields a better hands than the own hand. This calculation is done online.
 
-The problem with this approach is that the remaining shared cards at the flop and at the turn arent't considered. Therefore the \emph{Improved Hand Strength Strategy} was implemented. Here the remaining shared cards are drawn randomly out of the deck. This is done several times like at the pre flop.
+The problem with this approach is that the missing shared cards at the flop and at the turn arent't considered. Therefore the \emph{Improved Hand Strength Strategy} was implemented. Here the missing shared cards are drawn randomly out of the deck. This is done several times like at the pre flop.
 
 \section{Strategies}
 The expectation is that the phase II strategies beat the phase I strategies.
 
 \subsection{Hand strengh strategy}
-The amount of money the player is willing to pay $w$ is calculated on the basis of his hand strength $h$ and the aggressivity level $a$ like shown in formula \ref{equ:handStrength1}. Like in phase I the aggressivity level is a number between 1 and 3. The riskier a player the more is he willing to pay. 
+The amount of money the player is willing to pay $w$ is calculated on the basis of his hand strength $h$ and the aggressivity level $a$ like shown in formula \ref{equ:handStrength1}. Like in phase I the aggressivity level is a number between 1 and 3. The riskier a player the more is he willing to pay. The maximum amount the a risky player would pay is 
 
 \begin{equation}
 	\label{equ:handStrength1}
@@ -42,6 +42,6 @@ The amount of money the player is willing to pay $w$ is calculated on the basis 
 \end{equation}
 
 \subsection{Improved hand strengh strategy}
-The \emph{Improved Hand Strength Strategy} computes the bets the same way like the \emph{Improved Hand Strength Strategy} but instead of using 
+The \emph{Improved Hand Strength Strategy} computes the bets the same way like the \emph{Improved Hand Strength Strategy} but it also draws the missing shared cards at the flop and at the turn. Therefore it is significantly slower, but the calculated hand strengths are expected to be more precise.
 
 \section{Results}

@@ -25,4 +25,18 @@ Player 3 :        51756 (HandStrength | MODERATE)
 Player 4 :       149211 (HandStrength | CONSERVATIVE)
 Player 5 :       161663 (HandStrength | CONSERVATIVE)
 
-Game 4:
+Game 4
+Player 0 :      -256889 (HandStrength | RISKY)
+Player 1 :      -156163 (HandStrength | RISKY)
+Player 2 :        10332 (HandStrength | MODERATE)
+Player 3 :        63958 (HandStrength | MODERATE)
+Player 4 :       222864 (HandStrength | CONSERVATIVE)
+Player 5 :       115740 (HandStrength | CONSERVATIVE)
+
+Game 5
+Player 0 :      -255356 (HandStrength | RISKY)
+Player 1 :      -188908 (HandStrength | RISKY)
+Player 2 :        41706 (HandStrength | MODERATE)
+Player 3 :        60409 (HandStrength | MODERATE)
+Player 4 :       198017 (HandStrength | CONSERVATIVE)
+Player 5 :       143957 (HandStrength | CONSERVATIVE)

@@ -1,11 +1,42 @@
 Phase II Results
-1000 Iterations
+500 Iterations
 
 Game 1
-Player 0 :       -15645 (HandStrength | MODERATE)
-Player 1 :        10824 (HandStrength | CONSERVATIVE)
-Player 2 :          -40 (ImprovedHandStrength | MODERATE)
-Player 3 :         4848 (ImprovedHandStrength | CONSERVATIVE)
+Player 0 :       -24800 (HandStrength | RISKY)
+Player 1 :        -4161 (HandStrength | MODERATE)
+Player 2 :         5322 (HandStrength | CONSERVATIVE)
+Player 3 :         4285 (ImprovedHandStrength | RISKY)
+Player 4 :         6721 (ImprovedHandStrength | MODERATE)
+Player 5 :        12628 (ImprovedHandStrength | CONSERVATIVE)
 
 Game 2
+Player 0 :       -16712 (HandStrength | RISKY)
+Player 1 :        -4549 (HandStrength | MODERATE)
+Player 2 :        12237 (HandStrength | CONSERVATIVE)
+Player 3 :        -5861 (ImprovedHandStrength | RISKY)
+Player 4 :        10362 (ImprovedHandStrength | MODERATE)
+Player 5 :         4517 (ImprovedHandStrength | CONSERVATIVE)
 
+Game 3
+Player 0 :        -5346 (HandStrength | RISKY)
+Player 1 :        -3506 (HandStrength | MODERATE)
+Player 2 :         3358 (HandStrength | CONSERVATIVE)
+Player 3 :          797 (ImprovedHandStrength | RISKY)
+Player 4 :          190 (ImprovedHandStrength | MODERATE)
+Player 5 :         4498 (ImprovedHandStrength | CONSERVATIVE)
+
+Game 4
+Player 0 :       -22282 (HandStrength | RISKY)
+Player 1 :          620 (HandStrength | MODERATE)
+Player 2 :         3554 (HandStrength | CONSERVATIVE)
+Player 3 :         3077 (ImprovedHandStrength | RISKY)
+Player 4 :         2490 (ImprovedHandStrength | MODERATE)
+Player 5 :        12532 (ImprovedHandStrength | CONSERVATIVE)
+
+Game 5
+Player 0 :        -6416 (HandStrength | RISKY)
+Player 1 :         2972 (HandStrength | MODERATE)
+Player 2 :         6218 (HandStrength | CONSERVATIVE)
+Player 3 :        -9541 (ImprovedHandStrength | RISKY)
+Player 4 :         -170 (ImprovedHandStrength | MODERATE)
+Player 5 :         6921 (ImprovedHandStrength | CONSERVATIVE)

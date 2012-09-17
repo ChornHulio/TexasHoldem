@@ -41,7 +41,33 @@ The amount of money the player is willing to pay $w$ is calculated on the basis 
 	w = e^{(h * 3 - 3)} * 100 * a + b
 \end{equation}
 
+After $w$ is calculated the player's action is detemined on the basis of $w$. If $w$ is smaller than the pot odds multiplied by the amount a call would cost the player folds. That means, that if the player hasn't to pay much (relatively to the pot size) to stay in the game he will pay at least the call. To raise $w$ has to fulfill the following condition \ref{equ:raiseCondition1} where $c$ is the cost of the call and $r$ the number of raises. The more raises there have been, the more likely the player will raise. That's because the player is sure not to frighten away the competitors knowing that they already have raised and don't want to dump their stakes. If there are only few raises the player will more likely call to prevent others from folding.
+
+\begin{equation}
+	\label{equ:raiseCondition}
+	w > \frac{c}{1 + r}
+\end{equation}
+
+
 \subsection{Improved hand strengh strategy}
 The \emph{Improved Hand Strength Strategy} computes the bets the same way like the \emph{Improved Hand Strength Strategy} but it also draws the missing shared cards at the flop and at the turn. Therefore it is significantly slower, but the calculated hand strengths are expected to be more precise.
 
 \section{Results}
+Table \ref{tbl:resultsPhase2a} shows five 10,000 hand runs where \emph{Hand Strength Strategy}-players play against each other
+\begin{table}[h]
+	\centering
+	\begin{tabular}[h]{l|r|r|r|r|r}
+		& \textbf{Game 1} & \textbf{Game 2} & \textbf{Game 3} & \textbf{Game 4} & \textbf{Game 5}\\
+		\hline
+		Hand Strength (risky) & -248413 & -314686 & -299379 & -256889 & -255356\\
+		Hand Strength (risky) & -155327 & -151467 & -154479 & -156163 & -188908\\
+		Hand Strength (moderate) & -29572 & 49987 & 91098 & 10332 & 41706\\
+		Hand Strength (moderate) & 84684 & 48850 & 51756 & 63958 & 60409\\
+		Hand Strength (conservative) & 200887 & 173006 & 149211 & 222864 & 198017\\
+		Hand Strength (conservative) & 147595 & 194157 & 161663 & 115740 & 143957\\
+	\end{tabular}
+	\label{tbl:resultsPhase2a}
+	\caption{Results of phase II}
+\end{table}
+The conservative player is the most successful one. The reason for that he is only willing to play  a hand if his cards are very good. Therefore he is more likely to win at showdown.
+

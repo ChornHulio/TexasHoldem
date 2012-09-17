@@ -16,7 +16,7 @@ The calculation of the hand strength is done differently depending whether it's 
 \subsection{Pre Flop}
 For the calculation of the hand strength at the pre flop two cards are fixed and the remaining 50 cards are dealt out. This is done many times. The count of the number of times that these two cards win is divided by the number of rollouts to estimate the hand strength of the two cards. 
 
-In order to reduce the number of rollout simulations the cards are divided in equivalence classes. For example the strength of a pair of Jacks is independent of the sign. Despite of that there are 169 equivalence classes. For each of these classes 10,000 rollout simulations are performed. This has to be done for every number of players between 2 and 10. So there are over 15 millions simulations to perform. Therefore it is reasonable to do this computation offline and store them in files. The figure \ref{fig:preflop} shows such a file.
+In order to reduce the number of rollout simulations the cards are divided in equivalence classes. For example the strength of a pair of Jacks is independent of the sign. Despite of that there are 169 equivalence classes. For each of these classes 10,000 rollout simulations are performed. This has to be done for every number of players between 2 and 10. So there are over 15 millions simulations to perform. Therefore it is reasonable to do this computation offline and store them in files. The figure \ref{fig:preflop} shows such a file. The value in the top left corner is the hand strength of a pair of twos, the value in the bottom right corner is the hand strength of a pair of aces.
 
 \begin{figure}[h]
   \centering

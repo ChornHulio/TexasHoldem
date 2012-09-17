@@ -1,0 +1,62 @@
+Results of all phases
+10000 Iterations
+
+Game 1
+Player 0 :      -659112 (Random)
+Player 1 :      -363698 (PowerRanking | RISKY)
+Player 2 :      -156685 (PowerRanking | MODERATE)
+Player 3 :      -121214 (PowerRanking | CONSERVATIVE)
+Player 4 :        48976 (HandStrength | RISKY)
+Player 5 :        22356 (HandStrength | MODERATE)
+Player 6 :       255380 (HandStrength | CONSERVATIVE)
+Player 7 :       387196 (OpponentModel | RISKY)
+Player 8 :       349258 (OpponentModel | MODERATE)
+Player 9 :       237244 (OpponentModel | CONSERVATIVE)
+
+Game 2
+Player 0 :      -621306 (Random)
+Player 1 :      -282221 (PowerRanking | RISKY)
+Player 2 :      -108439 (PowerRanking | MODERATE)
+Player 3 :      -129046 (PowerRanking | CONSERVATIVE)
+Player 4 :       -22590 (HandStrength | RISKY)
+Player 5 :       111913 (HandStrength | MODERATE)
+Player 6 :       205473 (HandStrength | CONSERVATIVE)
+Player 7 :       241850 (OpponentModel | RISKY)
+Player 8 :       366101 (OpponentModel | MODERATE)
+Player 9 :       237975 (OpponentModel | CONSERVATIVE)
+
+Game 3
+Player 0 :      -615979 (Random)
+Player 1 :      -264676 (PowerRanking | RISKY)
+Player 2 :      -107078 (PowerRanking | MODERATE)
+Player 3 :      -152320 (PowerRanking | CONSERVATIVE)
+Player 4 :       -45970 (HandStrength | RISKY)
+Player 5 :       155079 (HandStrength | MODERATE)
+Player 6 :       271372 (HandStrength | CONSERVATIVE)
+Player 7 :       285574 (OpponentModel | RISKY)
+Player 8 :       242860 (OpponentModel | MODERATE)
+Player 9 :       230835 (OpponentModel | CONSERVATIVE)
+
+Game 4
+Player 0 :      -611152 (Random)
+Player 1 :      -281963 (PowerRanking | RISKY)
+Player 2 :       -80655 (PowerRanking | MODERATE)
+Player 3 :      -142944 (PowerRanking | CONSERVATIVE)
+Player 4 :       -45916 (HandStrength | RISKY)
+Player 5 :       145145 (HandStrength | MODERATE)
+Player 6 :       189214 (HandStrength | CONSERVATIVE)
+Player 7 :       270680 (OpponentModel | RISKY)
+Player 8 :       273993 (OpponentModel | MODERATE)
+Player 9 :       283306 (OpponentModel | CONSERVATIVE)
+
+Game 5
+Player 0 :      -614668 (Random)
+Player 1 :      -324449 (PowerRanking | RISKY)
+Player 2 :      -107961 (PowerRanking | MODERATE)
+Player 3 :      -149966 (PowerRanking | CONSERVATIVE)
+Player 4 :       -15107 (HandStrength | RISKY)
+Player 5 :       133885 (HandStrength | MODERATE)
+Player 6 :       238723 (HandStrength | CONSERVATIVE)
+Player 7 :       284309 (OpponentModel | RISKY)
+Player 8 :       341882 (OpponentModel | MODERATE)
+Player 9 :       213029 (OpponentModel | CONSERVATIVE)

@@ -12,8 +12,6 @@ import player.strategy.opponentModel.OpponentModel;
 import player.strategy.opponentModel.OpponentModelStrategy;
 import rollout.PreFlop;
 
-// TODO comments
-
 public class Main {	
 
 	public static void main(String[] args) throws Exception {
@@ -24,20 +22,20 @@ public class Main {
 		int bigBlindSize = 20;
 		int hands = 10000;
 		int initialMoney = 0;
-		int iterationsOfRollouts = 20; // for ImprovedHandStrenghStrategy
+		int iterationsOfRollouts = 50; // for ImprovedHandStrenghStrategy
 		
-		int randomPlayers = 0;
+		int randomPlayers = 1;
 		int simplePowerRankingPlayersRisky = 0;
-		int simplePowerRankingPlayersModerate = 0;
+		int simplePowerRankingPlayersModerate = 1;
 		int simplePowerRankingPlayersConservative = 0;
-		int handStrengthPlayersRisky = 0;
-		int handStrengthPlayersModerate = 2;
-		int handStrengthPlayersConservative = 0;
-		int improvedHandStrengthPlayersRisky = 0;
+		int handStrengthPlayersRisky = 1;
+		int handStrengthPlayersModerate = 0;
+		int handStrengthPlayersConservative = 1;
+		int improvedHandStrengthPlayersRisky = 1;
 		int improvedHandStrengthPlayersModerate = 0;
-		int improvedHandStrengthPlayersConservative = 0;
+		int improvedHandStrengthPlayersConservative = 1;
 		int modellingPlayersRisky = 0;
-		int modellingPlayersModerate = 2;
+		int modellingPlayersModerate = 0;
 		int modellingPlayersConservative = 0;
 		
 		String pathnameToRollout = "./rollouts";
@@ -45,7 +43,6 @@ public class Main {
 		for (int i = 2; i <= 10; i++) {
 			preFlops.add(new PreFlop(i, pathnameToRollout));
 		}
-
 		
 		ArrayList<OpponentModel> opponentModels = new ArrayList<OpponentModel>();
 				

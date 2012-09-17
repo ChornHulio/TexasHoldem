@@ -11,7 +11,7 @@ public class Writer {
 		dir.mkdir();
 	}
 
-	public void writeOutputFile(String dir, String filename, String str) {
+	public void writeFile(String dir, String filename, String str) {
 		FileWriter fw = null;
 		try {
 			fw = new FileWriter(dir+filename, false); // clear file before writing

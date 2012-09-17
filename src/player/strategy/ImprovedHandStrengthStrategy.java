@@ -89,6 +89,6 @@ public class ImprovedHandStrengthStrategy implements IStrategy{
 
 	@Override
 	public String printStrategy() {
-		return "HandStrength | " + aggressivity;
+		return "ImprovedHandStrength | " + aggressivity;
 	}
 }

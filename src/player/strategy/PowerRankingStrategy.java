@@ -116,6 +116,6 @@ public class PowerRankingStrategy implements IStrategy{
 
 	@Override
 	public String printStrategy() {
-		return "SimplePowerRanking | " + aggressivity;
+		return "PowerRanking | " + aggressivity;
 	}
 }

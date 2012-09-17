@@ -15,8 +15,8 @@ public class Rollout {
 		// the reader's tab size should be at least 8 for a human readable file format
 		Writer wr = new Writer(dir);
 		for (int i = 2; i <= players; i++) {
-			wr.writeOutputFile(dir, i + "_suited.csv",computeProbabilites(iterations, i, true));
-			wr.writeOutputFile(dir, i + "_unsuited.csv",computeProbabilites(iterations, i, false));
+			wr.writeFile(dir, i + "_suited.csv",computeProbabilites(iterations, i, true));
+			wr.writeFile(dir, i + "_unsuited.csv",computeProbabilites(iterations, i, false));
 		}
 	}
 	

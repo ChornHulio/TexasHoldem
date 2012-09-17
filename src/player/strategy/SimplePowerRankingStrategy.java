@@ -34,19 +34,19 @@ public class SimplePowerRankingStrategy implements IStrategy{
 				thresholds[i][j] = new CardPower();
 			}
 		}
+		
+		thresholds[AGGRESSIVITY.CONSERVATIVE.ordinal()][callIndex].add(3).add(-1); // calls if >= three of a kind 
+		thresholds[AGGRESSIVITY.CONSERVATIVE.ordinal()][raiseIndex].add(4).add(-1);  // raises if  >= straight
 
-		thresholds[AGGRESSIVITY.CONSERVATIVE.ordinal()][callIndex].add(3).add(-1); // calls if >= two pairs // TODO: adjust comments
-		thresholds[AGGRESSIVITY.CONSERVATIVE.ordinal()][raiseIndex].add(4).add(-1);  // raises >= three of a kind
+		thresholds[AGGRESSIVITY.MODERATE.ordinal()][callIndex].add(2).add(-1); // calls if >=  two pairs
+		thresholds[AGGRESSIVITY.MODERATE.ordinal()][raiseIndex].add(3).add(-1); // raises if >= three of a kind
 
-		thresholds[AGGRESSIVITY.MODERATE.ordinal()][callIndex].add(2).add(-1); // calls if >= pairs
-		thresholds[AGGRESSIVITY.MODERATE.ordinal()][raiseIndex].add(3).add(-1); // raises if >= two pairs
-
-		thresholds[AGGRESSIVITY.RISKY.ordinal()][callIndex].add(1).add(-1); // calls if >= king high
-		thresholds[AGGRESSIVITY.RISKY.ordinal()][raiseIndex].add(2).add(-1); // raises if >= pairs
+		thresholds[AGGRESSIVITY.RISKY.ordinal()][callIndex].add(1).add(-1); // calls if >= pairs
+		thresholds[AGGRESSIVITY.RISKY.ordinal()][raiseIndex].add(2).add(-1); // raises if >= two pairs
 	}
 
 	/**
-	 * Choose action
+	 * Chooses action on the basis of a the hand power
 	 * @return chosen action (FOLD, CALL, RAISE)
 	 * @throws Exception 
 	 */
@@ -58,7 +58,7 @@ public class SimplePowerRankingStrategy implements IStrategy{
 			PlayerAction.ACTION[] actionArray = PlayerAction.ACTION.values();
 			lastAction.action = actionArray[generator.nextInt(actionArray.length)];	
 			
-			// is fold necassary
+			// don't fold if you can check
 			if(state.getBiggestRaise() - player.getCurrentBet() <= 0 && lastAction.action == ACTION.FOLD) {
 				lastAction.action = ACTION.CALL;
 			}
@@ -72,6 +72,7 @@ public class SimplePowerRankingStrategy implements IStrategy{
 			ArrayList<Card> cards = new ArrayList<Card>();
 			cards.addAll(player.getHoleCards());
 			cards.addAll(state.getSharedCards());
+			// current hand's power
 			CardPower cardPower = new PowerRanking().calcCardPower(cards);
 			if(cardPower.compareTo(thresholds[aggressivity.ordinal()][raiseIndex]) > 0) {
 				lastAction.action = ACTION.RAISE;
@@ -81,7 +82,7 @@ public class SimplePowerRankingStrategy implements IStrategy{
 				lastAction.action = ACTION.FOLD;
 			}
 			
-			// is fold necassary
+			// don't fold if you can check
 			if(state.getBiggestRaise() - player.getCurrentBet() <= 0 && lastAction.action == ACTION.FOLD) {
 				lastAction.action = ACTION.CALL;
 			}
@@ -90,6 +91,7 @@ public class SimplePowerRankingStrategy implements IStrategy{
 				lastAction.toPay = calculateCall(state, player.getCurrentBet());
 			} else if(lastAction.action == ACTION.RAISE) {
 //				int raise = (int) (Math.exp(cardPower.getAt(0))) * (aggressivity.ordinal() + 1) + state.getBigBlindSize();
+				// the bet is calculated with an exp-function of hand power
 				int raise = (int) (Math.exp((cardPower.getAt(0) / 3) - 3) * 100.0 * (aggressivity.ordinal() + 1))+ state.getBigBlindSize();
 				lastAction.toPay = raise + state.getBiggestRaise() - player.getCurrentBet();
 			}

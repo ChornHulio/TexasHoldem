@@ -8,7 +8,6 @@ import player.strategy.IStrategy.AGGRESSIVITY;
 import player.strategy.ImprovedHandStrengthStrategy;
 import player.strategy.RandomStrategy;
 import player.strategy.SimplePowerRankingStrategy;
-import player.strategy.opponentModel.Logger;
 import player.strategy.opponentModel.OpponentModel;
 import player.strategy.opponentModel.OpponentModelStrategy;
 import rollout.PreFlop;
@@ -93,6 +92,7 @@ public class Main {
 			g.addPlayer(new ComputerPlayer(g.getState(), new OpponentModelStrategy(count++, preFlops, AGGRESSIVITY.CONSERVATIVE, opponentModels), initialMoney));
 		}
 		
+		// init models
 		for (int i = 0; i < g.getNumberOfPlayers(); i++) {
 			opponentModels.add(new OpponentModel(i));
 		}

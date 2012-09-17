@@ -14,6 +14,12 @@ import core.card.CardPower;
 
 public class PowerRanking {
 
+	/**
+	 * Calculates a hand's power
+	 * @param cards The Hand
+	 * @return Power of the hand
+	 * @throws Exception If the hand has less than 5 cards
+	 */
 	public CardPower calcCardPower(ArrayList<Card> cards) throws Exception {
 
 		if (cards.size() < 5) {

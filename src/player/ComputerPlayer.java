@@ -14,6 +14,9 @@ public class ComputerPlayer implements IPlayer {
 	 * (not hand)
 	 */
 	private int currentBet = 0;
+	/**
+	 * The current state of the game
+	 */
 	private State state;
 	private ArrayList<Card> holeCards;
 	private boolean folded = false;
@@ -61,6 +64,10 @@ public class ComputerPlayer implements IPlayer {
 	}
 
 	@Override
+	/**
+	 * Decides how to act at a given state of the game
+	 * @param raiseAllowed is it allowed to raise or not
+	 */
 	public PlayerAction makeBet(boolean raiseAllowed) throws Exception {
 		PlayerAction action = new PlayerAction();
 		action.oldStake = currentBet;

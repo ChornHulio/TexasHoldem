@@ -6,11 +6,21 @@ import core.card.Card;
 import core.card.Card.SIGN;
 import core.card.Card.VALUE;
 
+/**
+ * Contains hand strengths at preFlop for a given number of players
+ *
+ */
 public class PreFlop {
 
 	private double[][] suitedPreFlop;
 	private double[][] unsuitedPreFlop;
 
+	/**
+	 * Reads the hand strengths for a given number of players
+	 * @param players Number of players
+	 * @param pathname Path to the file with the calculated hand strengths
+	 * @throws Exception
+	 */
 	public PreFlop(int players, String pathname) throws Exception {
 		if(!pathname.endsWith("/")) {
 			pathname = pathname.concat("/");
@@ -21,13 +31,18 @@ public class PreFlop {
 				+ "_unsuited.csv");
 	}
 
+	/**
+	 * 
+	 * @param holeCards Hole cards
+	 * @return Hand strength of the given hole cards
+	 * @throws Exception
+	 */
 	public double getStrength(ArrayList<Card> holeCards) throws Exception {
 		if (holeCards.size() != 2) {
 			throw new Exception("Not correct amount of hole cards");
 		}
 		if (holeCards.get(0).sign == holeCards.get(1).sign) { // suited
-			// in cause of a triangular matrix you have to look on the right
-			// sight
+			// in cause of a triangular matrix you have to look on the right sight
 			if (holeCards.get(0).value.ordinal() < holeCards.get(1).value
 					.ordinal()) {
 				return suitedPreFlop[holeCards.get(0).value.ordinal()][holeCards
@@ -37,8 +52,7 @@ public class PreFlop {
 						.get(0).value.ordinal()];
 			}
 		} else { // unsuited
-			// in cause of a triangular matrix you have to look on the right
-			// sight
+			// in cause of a triangular matrix you have to look on the right sight
 			if (holeCards.get(0).value.ordinal() <= holeCards.get(1).value
 					.ordinal()) {
 				return unsuitedPreFlop[holeCards.get(0).value.ordinal()][holeCards

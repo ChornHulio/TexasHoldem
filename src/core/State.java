@@ -3,6 +3,10 @@ import java.util.ArrayList;
 
 import core.card.Card;
 
+/**
+ * The current state of the game
+ *
+ */
 public class State {
 	
 	public enum STAGE{ // betting round

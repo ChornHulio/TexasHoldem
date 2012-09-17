@@ -7,8 +7,7 @@ public class OpponentEntry {
 
 	private Context context;
 	private PlayerAction action;
-	private double averageHandStrength = -1; // used only by model, not by
-												// history
+	private double averageHandStrength = -1;
 	private int count = 0;
 
 	public OpponentEntry(Context context, PlayerAction action) {
@@ -16,8 +15,7 @@ public class OpponentEntry {
 		this.action = action;
 	}
 
-	public OpponentEntry(Context context, PlayerAction action,
-			double handStrength) {
+	public OpponentEntry(Context context, PlayerAction action, double handStrength) {
 		this.context = context;
 		this.action = action;
 		this.averageHandStrength = handStrength;
@@ -25,8 +23,7 @@ public class OpponentEntry {
 	}
 
 	public void update(double handStrength) {
-		averageHandStrength = (averageHandStrength * count + handStrength)
-				/ (count + 1);
+		averageHandStrength = (averageHandStrength * count + handStrength) / (count + 1);
 		count++;
 	}
 
@@ -70,7 +67,7 @@ public class OpponentEntry {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public String toString() {
 		return context.toString() + ", " + action.toString() + " : " + averageHandStrength + ", " + count;

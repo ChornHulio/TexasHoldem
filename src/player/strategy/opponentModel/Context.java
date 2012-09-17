@@ -34,6 +34,10 @@ public class Context {
 	}
 
 	@Override
+	/**
+	 * Defines thresholds for considering contexts being equal
+	 * E.g. two contexts where the pot odds are 0.1 and 0.11 should be considered equal
+	 */
 	public boolean equals(Object o) {
 		if (o == null)
 			return false;
@@ -96,6 +100,7 @@ public class Context {
 	}
 
 	public static void main(String[] args) {
+		// poor man's unit tests
 		Context c1 = new Context();
 		c1.setNumberOfPlayers(1);
 		Context c2 = new Context();
@@ -103,7 +108,6 @@ public class Context {
 		Context c3 = new Context();
 		c3.setNumberOfPlayers(3);
 
-		// poor man's unit tests
 		System.out.println(c1.equals(c2) == true);
 		System.out.println(c1.equals(c3) == false);
 

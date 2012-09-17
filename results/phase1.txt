@@ -1,0 +1,32 @@
+Phase I Results
+10000 Iterations
+
+Game 1
+Player 0 :       -34116 (Random)
+Player 1 :        -6298 (PowerRanking | RISKY)
+Player 2 :        34263 (PowerRanking | MODERATE)
+Player 3 :         6054 (PowerRanking | CONSERVATIVE)
+
+Game 2
+Player 0 :       -34456 (Random)
+Player 1 :         -122 (PowerRanking | RISKY)
+Player 2 :        27587 (PowerRanking | MODERATE)
+Player 3 :         6897 (PowerRanking | CONSERVATIVE)
+
+Game 3
+Player 0 :       -32395 (Random)
+Player 1 :         6552 (PowerRanking | RISKY)
+Player 2 :        24984 (PowerRanking | MODERATE)
+Player 3 :          767 (PowerRanking | CONSERVATIVE)
+
+Game 4
+Player 0 :       -30322 (Random)
+Player 1 :        -2533 (PowerRanking | RISKY)
+Player 2 :        22343 (PowerRanking | MODERATE)
+Player 3 :        10423 (PowerRanking | CONSERVATIVE)
+
+Game 5
+Player 0 :       -35032 (Random)
+Player 1 :        -9379 (PowerRanking | RISKY)
+Player 2 :        25677 (PowerRanking | MODERATE)
+Player 3 :        18642 (PowerRanking | CONSERVATIVE)

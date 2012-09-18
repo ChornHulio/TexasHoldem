@@ -43,7 +43,7 @@ There are no fold entries in the \emph{Opponent Model} because folded cards neve
 \section{Opponent Model Strategy}
 Basically the phase III player acts the same way like phase II player does. At first the amount that a player is willing to pay is calculated the same way. Afterwards the opponents' hand strengths are estimated. Therefore the player retrieves from the model the average hand strength that his opponents had at the same context in the past.
 
-The player compares his own hand strengths with the estimated strengths and gets a number of players who are supposedly better and worse than him. These numbers are used to adjust the player's bet. The new bet is calculated as shown in \ref{equ:opponentModel1}, where $b'$ is the new bet, $b$ the old bet, $better$ the number of players who are better and $worse$ the number of player who are worse than the current player.
+The player compares his own hand strengths with the estimated strengths and gets the number of players who are supposedly better and worse than him. These numbers are used to adjust the player's bet. The new bet is calculated as shown in \ref{equ:opponentModel1}, where $b'$ is the new bet, $b$ the old bet, $better$ the number of players who are better and $worse$ the number of player who are worse than the current player.
 \begin{equation}
 	\label{equ:opponentModel1}
 	b' = b * (\frac{worse - better}{10})
@@ -65,8 +65,8 @@ As shown in Table \ref{tbl:resultsPhase3a} the \emph{Opponent model strategy}-Pl
 		Opponent Model (moderate) & 54823 & 112741 & 33273 & 71858 & 99823\\
 		Opponent Model (conservative) & 155045 & 144364 & 126323 & 135084 & 148064\\
 	\end{tabular}
+	\caption{Results of phase III. 10.000 hands on each run}
 	\label{tbl:resultsPhase3a}
-	\caption{Results of phase III. 10.000 hands on each run.}
 \end{table}
 
 
@@ -87,7 +87,7 @@ Table \ref{tbl:resultsPhase3b} shows the competition among all phases. For perfo
 		Opponent Model (moderate) & 349258 & 366101 & 242860 & 273993 & 341882\\
 		Opponent Model (conservative) & 237244 & 237975 & 230835 & 283306 & 213029\\
 	\end{tabular}
+	\caption{Results of phase III. 10.000 hands on each run}
 	\label{tbl:resultsPhase3b}
-	\caption{Results of phase III. 10.000 hands on each run.}
 \end{table}
 
